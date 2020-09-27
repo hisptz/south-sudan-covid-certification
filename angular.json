@@ -21,12 +21,18 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webapp"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -56,14 +62,17 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "covid-certification:build"
+            "browserTarget": "covid-certification:build",
+            "proxyConfig": "proxy-config.json"
           },
           "configurations": {
             "production": {
@@ -86,7 +95,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"
@@ -120,6 +130,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "covid-certification"
+    }
+  },
+  "defaultProject": "covid-certification",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

@@ -1,0 +1,85 @@
+<div class="container-fluid px-0">
+    <div class="row mx-0 w-100">
+        <!-- Search field with buttons -->
+        <div class="row w-100 mx-0 mb-2">
+          <div class="col-sm">
+            <div class="input-group">
+              <mat-form-field class="w-50">
+                <input matInput type="text" placeholder="Search" (keyup)="searchingItems($event)">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm pr-0 d-flex justify-content-end">
+            <!-- <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+              All Registered
+            </button>
+            <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+                Reported
+            </button> -->
+          </div>
+        </div>
+        <!-- Search field with buttons -->
+        <!-- {{eventsAnalytics$ | async | json }} -->
+
+
+        <!-- Progressive Loader -->
+        <mat-progress-bar mode="indeterminate" class="ml-2" *ngIf="(eventsLoading$ | async)"></mat-progress-bar>
+        <!-- End of Progressive Loader -->
+
+        <!-- Table card section  -->
+        <div class="row w-100 ml-2" *ngIf="(eventsAnalytics$ | async).rows">
+          <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
+            <table class="table table-hover w-100">
+              <thead>
+                <tr class="text-muted">
+                  <th>SN</th>
+                  <th *ngFor="let header of (eventsAnalytics$ | async).headers">{{ header.column }}</th>
+                  <th>Print</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of ((eventsAnalytics$ | async).rows |
+                     filterBy: ['3','4','5','6'] : searchText |
+                     paginate: { itemsPerPage: itemsPerPage, currentPage: page});let i = index;trackBy: trackByFn;">
+                  <td> {{ i + 10 * (page - 1) + 1 }} </td>
+                  <td *ngFor="let item of row"> {{ item }} </td>
+                 
+                  <td>
+                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+                      Certificate
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="w-100"
+                *ngIf="((eventsAnalytics$ | async).rows | filterBy: ['3','4','5','6'] : searchText).length < 1 && (eventsAnalytics$ | async).rows.length > 0">
+                <tr>
+                  <td colspan="10">
+                    <label class="text-muted text-center w-100 h3"> Session not found</label>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot
+                *ngIf="((eventsAnalytics$ | async).rows | filterBy: ['3','4','5','6'] : searchText).length > 0">
+                <tr>
+                  <td [attr.colspan]="(eventsAnalytics$ | async).headers.length + 2">
+                    <app-pagination 
+                      [itemsPerPage]="itemsPerPage"
+                      [pageInterval]="itemsPerPage"
+                      [pageIntervalFactor]="1"
+                      [currentPage]="page"
+                      [dataArray]="(eventsAnalytics$ | async).rows"
+                      [maxSize]="(eventsAnalytics$ | async).rows.length"
+                      (changeCurrentPage)="onCurrentPageUpdate($event)"
+                      (updateItemsPerPage)="onUpdatePageSize($event)">
+                    </app-pagination>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </mat-card>
+        </div>
+        <!-- End of Table card section  -->
+
+  </div>
+</div>
