@@ -1,4 +1,5 @@
 <div class="container-fluid px-0">
+  <label class="font-x-large font-weight-bold"> Certification for COVID-19 Lab Test</label>
     <div class="row mx-0 w-100">
         <!-- Search field with buttons -->
         <div class="row w-100 mx-0 mb-2">
@@ -65,7 +66,8 @@
                   <td> {{ row.labresult }} </td>
                  
                   <td>
-                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height"
+                    [routerLink]="'/certificate'" [queryParams]="{ psi: row.psi }">
                       Certificate
                     </button>
                   </td>

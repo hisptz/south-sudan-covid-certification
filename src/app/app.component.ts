@@ -16,5 +16,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(fromActions.loadCurrentUser());
+    this.store.dispatch(fromActions.loadEvents());
   }
 }
