@@ -1,0 +1,141 @@
+<div class="container">
+    <div class="row mx-0 w-100 d-print-none">
+        <div class="col-sm d-flex justify-content-start">
+            <label class="font-weight-600 cursor-pointer mb-0 w-100 font-x-large" [routerLink]="'/'">
+                <!-- Back Arrow navigation  -->
+                <a class="navbar-brand color-black cursor-pointer mr-0" matTooltip="Go Back">
+                  <i class="icon ion-md-arrow-back mt-4 color-black font-x-large"></i>
+                </a>
+                <!-- Back Arrow navigation  -->
+                Back
+            </label>
+        </div>
+        <div class="col-sm py-2 d-flex justify-content-end">
+            <button mat-stroked-button 
+                class="color-black btn-border-color-grey"
+                matTooltip="Print Certificate"
+                (click)="printCertificate('certificatepage')">
+                <mat-icon class="font-21px color-black">print</mat-icon> Print Certificate
+            </button>
+        </div>
+    </div>
+    <!-- Certificate Section  -->
+    <div class="row mx-0 w-100 mt-4" id="certificatepage">
+        <!-- certificate header -->
+        <div class="row w-100 mx-0">
+            <div class="col-sm-3">
+                <img src="./assets/img/sudan-moh.png" class="img-fluid" alt="">
+            </div>
+            <div class="col-sm-9">
+                <label class="h3 font-weight-bold w-100">Republic of South Sudan</label>
+                <label class="h5 font-weight-bold w-100">Ministry of Health, National Public Health Laboratory</label>
+                <!-- <label class="h5 font-weight-bold w-100"></label> -->
+                <label class="w-100">Juba- Addis Ababa Road near Mobil roundabout</label>
+                <label class="w-100">Email: nphlsscovid19results@gmail.com</label>
+                <label class="w-100">Tell: 0929310671</label>
+            </div>
+        </div>
+        <!-- certificate header -->
+        <div class="row w-100 mx-0 mt-4">
+            <label class="h5 font-weight-bold w-100"> COVID-19 (SARS-COV-2) Individual Lab Test Results Report Form </label>
+            <table class="table table-sm">
+                <thead class="gerybg-color">
+                    <tr>
+                      <th>Client’s Identification Details</th>
+                      <th>Testing Lab Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Full name: your name <br>
+                            Sex: <br>
+                            Age: <br>
+                            Nationality: <br>
+                            Passport # / NIN: <br>
+                        </td>
+                        <td>
+                            Laboratory Name: your name <br>
+                            State: <br>
+                            County: <br>
+                            Testing Platform: <br>
+                        </td>
+                    </tr>
+                </tbody>
+                <thead class="gerybg-color">
+                    <tr>
+                      <th colspan="2">Specimen Information Details</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Lab Specimen ID: your name <br>
+                            Specimen Type: <br>
+                            Specimen Quality: <br>
+                        </td>
+                        <td>
+                            Date Specimen Collected: your name <br>
+                            Date Specimen Received: <br>
+                            Date Specimen Tested: <br>
+                        </td>
+                    </tr>
+                </tbody>
+                <thead class="gerybg-color">
+                    <tr>
+                      <th colspan="2">COVID-19 (SARS-COV-2) TEST RESULTS</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Test Method: your name <br>
+                            Test Result: <br> <br>
+                            Date Results released: <br>
+                        </td>
+                    </tr>
+                </tbody>
+                <thead class="gerybg-color">
+                    <tr>
+                      <th colspan="2">All Controls have passed</th>
+                      <th></th>
+                    </tr>
+                </thead>
+            </table>
+
+            <table class="table table-bordered table-sm mt-4">
+                <thead class="gerybg-color">
+                    <tr>
+                      <th>Results Approved By</th>
+                      <th>Print Name</th>
+                      <th>Signature</th>
+                      <th>Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Laboratory Manager</td>
+                        <td>James Ayei Maror</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory Quality Manager</td>
+                        <td>Abe Gordon Abias</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory Supervisor</td>
+                        <td>Dr. Simon Deng Nyichar</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End of Certificate Section  -->
+</div>
