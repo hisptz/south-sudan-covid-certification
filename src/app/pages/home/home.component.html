@@ -27,22 +27,42 @@
         <!-- End of Progressive Loader -->
 
         <!-- Table card section  -->
-        <div class="row w-100 ml-2" *ngIf="(eventsAnalytics$ | async).rows">
+        <div class="row w-100 ml-2" *ngIf="(eventsAnalytics$ | async)">
           <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
             <table class="table table-hover w-100">
               <thead>
                 <tr class="text-muted">
                   <th>SN</th>
-                  <th *ngFor="let header of (eventsAnalytics$ | async).headers">{{ header.column }}</th>
+                  <th> System generated case ID </th>
+                  <th> First name </th>
+                  <th> Surname </th>
+                  <th> Sex </th>
+                  <th> Age </th>
+                  <th> Email </th>
+                  <th> Phone number </th>
+                  <th> Nationality </th>
+                  <th> Enrolled date </th>
+                  <th> Organisation unit name </th>
+                  <th> Lab result </th>
                   <th>Print</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of ((eventsAnalytics$ | async).rows |
-                     filterBy: ['3','4','5','6'] : searchText |
+                <tr *ngFor="let row of ((eventsAnalytics$ | async) |
+                     filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText |
                      paginate: { itemsPerPage: itemsPerPage, currentPage: page});let i = index;trackBy: trackByFn;">
                   <td> {{ i + 10 * (page - 1) + 1 }} </td>
-                  <td *ngFor="let item of row"> {{ item }} </td>
+                  <td> {{ row.systemgenerateduid }} </td>
+                  <td> {{ row.firstname }} </td>
+                  <td> {{ row.surname }} </td>
+                  <td> {{ row.sex }} </td>
+                  <td> {{ row.age }} </td>
+                  <td> {{ row.email }} </td>
+                  <td> {{ row.phone }} </td>
+                  <td> {{ row.nationality }} </td>
+                  <td> {{ row.enrollementdate }} </td>
+                  <td> {{ row.orgunitname }} </td>
+                  <td> {{ row.labresult }} </td>
                  
                   <td>
                     <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
@@ -52,7 +72,7 @@
                 </tr>
               </tbody>
               <tbody class="w-100"
-                *ngIf="((eventsAnalytics$ | async).rows | filterBy: ['3','4','5','6'] : searchText).length < 1 && (eventsAnalytics$ | async).rows.length > 0">
+                *ngIf="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length < 1 && (eventsAnalytics$ | async).length > 0">
                 <tr>
                   <td colspan="10">
                     <label class="text-muted text-center w-100 h3"> Session not found</label>
@@ -60,16 +80,16 @@
                 </tr>
               </tbody>
               <tfoot
-                *ngIf="((eventsAnalytics$ | async).rows | filterBy: ['3','4','5','6'] : searchText).length > 0">
+                *ngIf="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length > 0">
                 <tr>
-                  <td [attr.colspan]="(eventsAnalytics$ | async).headers.length + 2">
+                  <td [attr.colspan]="13">
                     <app-pagination 
                       [itemsPerPage]="itemsPerPage"
                       [pageInterval]="itemsPerPage"
                       [pageIntervalFactor]="1"
                       [currentPage]="page"
-                      [dataArray]="(eventsAnalytics$ | async).rows"
-                      [maxSize]="(eventsAnalytics$ | async).rows.length"
+                      [dataArray]="(eventsAnalytics$ | async)"
+                      [maxSize]="(eventsAnalytics$ | async).length"
                       (changeCurrentPage)="onCurrentPageUpdate($event)"
                       (updateItemsPerPage)="onUpdatePageSize($event)">
                     </app-pagination>

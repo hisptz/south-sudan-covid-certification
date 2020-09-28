@@ -31,9 +31,10 @@ const pageStateReducer = createReducer(
   on(PageStateActions.addEvents, (state, action) =>
     ({...state,
       eventsLoading: false,
-      events: fromHelpers.removeAnalyticsheaders(action.payload,
-      ['Event', 'Program stage', 'Tracked entity instance', 'Program instance',
-      'Geometry','Longitude',	'Latitude', 'Organisation unit code', 'Organisation unit'])
+      events: fromHelpers.transformAnalytics(action.payload)
+      // events: fromHelpers.removeAnalyticsheaders(action.payload,
+      // ['Event', 'Program stage', 'Tracked entity instance', 'Program instance',
+      // 'Geometry', 'Longitude',	'Latitude', 'Organisation unit code', 'Organisation unit'])
     })
   ),
   on(PageStateActions.upsertPageState, (state, action) =>
