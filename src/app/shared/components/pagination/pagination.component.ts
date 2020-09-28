@@ -29,6 +29,8 @@ export class PaginationComponent implements OnInit {
   constructor() {}
   ngOnInit() {
     if (this.dataArray) {
+      this.maxSize = this.dataArray.length;
+
       this.pagingIntervals = fromPaginationHelpers.generatePaginationEntryList(
         this.maxSize,
         this.pageIntervalFactor

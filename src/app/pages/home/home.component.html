@@ -75,7 +75,7 @@
                 *ngIf="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length < 1 && (eventsAnalytics$ | async).length > 0">
                 <tr>
                   <td colspan="10">
-                    <label class="text-muted text-center w-100 h3"> Session not found</label>
+                    <label class="text-muted text-center w-100 h3"> Data not found</label>
                   </td>
                 </tr>
               </tbody>
@@ -88,8 +88,8 @@
                       [pageInterval]="itemsPerPage"
                       [pageIntervalFactor]="1"
                       [currentPage]="page"
-                      [dataArray]="(eventsAnalytics$ | async)"
-                      [maxSize]="(eventsAnalytics$ | async).length"
+                      [dataArray]="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText)"
+                      [maxSize]="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length"
                       (changeCurrentPage)="onCurrentPageUpdate($event)"
                       (updateItemsPerPage)="onUpdatePageSize($event)">
                     </app-pagination>

@@ -22,7 +22,7 @@ export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   notification: { message: '', statusCode: 0 },
   notificationStatus: false,
-  events: {},
+  events: [],
   eventsLoading: true
 });
 
