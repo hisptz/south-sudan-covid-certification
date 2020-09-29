@@ -14,13 +14,16 @@
             <button mat-stroked-button 
                 class="color-black btn-border-color-grey"
                 matTooltip="Print Certificate"
-                (click)="printCertificate('certificatepage')">
+                (click)="printCertificate()">
                 <mat-icon class="font-21px color-black">print</mat-icon> Print Certificate
             </button>
         </div>
     </div>
+    <!-- Progressive Loader -->
+    <mat-progress-bar mode="indeterminate" class="ml-2 mt-4" *ngIf="!(currentEvent$ | async).psi"></mat-progress-bar>
+    <!-- End of Progressive Loader -->
     <!-- Certificate Section  -->
-    <div class="row mx-0 w-100 mt-4" id="certificatepage">
+    <div class="row mx-0 w-100 mt-4" id="certificatepage" *ngIf="(currentEvent$ | async).psi">
         <!-- certificate header -->
         <div class="row w-100 mx-0">
             <div class="col-sm-3">
@@ -48,14 +51,14 @@
                 <tbody>
                     <tr>
                         <td>
-                            Full name: your name <br>
-                            Sex: <br>
-                            Age: <br>
-                            Nationality: <br>
+                            Full name: {{ (currentEvent$ | async).firstname }} {{ (currentEvent$ | async).surname }} <br>
+                            Sex: {{ (currentEvent$ | async).sex }}<br>
+                            Age: {{ (currentEvent$ | async).age }} <br>
+                            Nationality: {{ (currentEvent$ | async).nationality }} <br>
                             Passport # / NIN: <br>
                         </td>
                         <td>
-                            Laboratory Name: your name <br>
+                            Laboratory Name:  <br>
                             State: <br>
                             County: <br>
                             Testing Platform: <br>
@@ -71,12 +74,12 @@
                 <tbody>
                     <tr>
                         <td>
-                            Lab Specimen ID: your name <br>
+                            Lab Specimen ID:  <br>
                             Specimen Type: <br>
                             Specimen Quality: <br>
                         </td>
                         <td>
-                            Date Specimen Collected: your name <br>
+                            Date Specimen Collected:  <br>
                             Date Specimen Received: <br>
                             Date Specimen Tested: <br>
                         </td>
@@ -91,8 +94,8 @@
                 <tbody>
                     <tr>
                         <td>
-                            Test Method: your name <br>
-                            Test Result: <br> <br>
+                            Test Method:  <br> <br>
+                            Test Result: {{ (currentEvent$ | async).labresult }} <br> <br>
                             Date Results released: <br>
                         </td>
                     </tr>
