@@ -26,7 +26,7 @@ export function transformAnalytics(analytics) {
     const headers = analytics.headers;
     const transformedData = (analytics.rows || []).map(row => {
         return {
-            psi: row[itemIndex(headers, 'Event')],
+            psi: row[itemIndex(headers, 'Enrollment')],
             systemgenerateduid: row[itemIndex(headers, 'System Generated Case ID')],
             firstname: row[itemIndex(headers, 'First Name')],
             surname: row[itemIndex(headers, 'Surname')],
@@ -38,7 +38,15 @@ export function transformAnalytics(analytics) {
             enrollementdate: row[itemIndex(headers, 'Enrollment date')],
             orgunitname: row[itemIndex(headers, 'Organisation unit name')],
             orgunitid: row[itemIndex(headers, 'Organisation unit')],
-            labresult: row[itemIndex(headers, 'Lab Test Result')]
+            labresult: row[itemIndex(headers, 'Lab Test Result')],
+            investigationStartDate: row[itemIndex(headers, 'Investigation start date')],
+            specimenReceivedDate: row[itemIndex(headers, 'Spx Date Specimen Sent to Laboratory')],
+            specimenType: row[itemIndex(headers, 'Spx Type of specimen')],
+            specimenCollectedDate: row[itemIndex(headers, 'Spx Date Specimen Collected')],
+            resultsRealesedDate: row[itemIndex(headers, 'Date result released')],
+            specimenCondition: row[itemIndex(headers, 'Specimen Condition')],
+            labName: row[itemIndex(headers, 'Testing Lab Name')],
+            testMethod: row[itemIndex(headers, 'Test Method')]
         };
     });
     return transformedData;

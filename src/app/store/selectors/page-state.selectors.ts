@@ -22,8 +22,8 @@ export const getSelectedEventFromRouteParams = createSelector(
     getEvents,
     getRouterParams,
     (events, routerParams) => {
-      const psiuid = routerParams.psi ? routerParams.psi : '';
-      const currentEvent = (events || []).filter(event => event.psi === psiuid);
-      return currentEvent[0] ? currentEvent[0] : {};
+        const psiuid = routerParams.psi ? routerParams.psi : '';
+        const currentEvent = (events || []).filter(event => event.psi === psiuid);
+        return currentEvent[0] ? currentEvent[0] : {};
     }
 );

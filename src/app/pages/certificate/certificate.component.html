@@ -74,7 +74,7 @@
         <tbody>
           <tr>
             <td>
-              Full name: {{ (currentEvent$ | async).firstname }}
+              Full name: {{ (currentEvent$ | async)?.firstname }}
               {{ (currentEvent$ | async).surname }} <br />
               Sex: {{ (currentEvent$ | async).sex }}<br />
               Age: {{ (currentEvent$ | async).age }} <br />
@@ -82,7 +82,7 @@
               Passport # / NIN: <br />
             </td>
             <td>
-              Laboratory Name: <br />
+              Laboratory Name: {{ (currentEvent$ | async)?.labName }}<br />
               State: <br />
               County: <br />
               Testing Platform: <br />
@@ -99,13 +99,17 @@
           <tr>
             <td>
               Lab Specimen ID: <br />
-              Specimen Type: <br />
-              Specimen Quality: <br />
+              Specimen Type: {{ (currentEvent$ | async)?.specimenType }}<br />
+              Specimen Quality: {{ (currentEvent$ | async)?.specimenCondition }}<br />
             </td>
             <td>
-              Date Specimen Collected: <br />
-              Date Specimen Received: <br />
-              Date Specimen Tested: <br />
+              Date Specimen Collected:
+              {{ (currentEvent$ | async)?.specimenCollectedDate | date }}<br />
+              Date Specimen Received:
+              {{ (currentEvent$ | async)?.specimenReceivedDate | date }}<br />
+              Date Specimen Tested:
+              {{ (currentEvent$ | async)?.investigationStartDate | date }}
+              <br />
             </td>
           </tr>
         </tbody>
@@ -118,11 +122,12 @@
         <tbody>
           <tr>
             <td>
-              Test Method: <br />
+              Test Method:  {{ (currentEvent$ | async)?.testMethod }}<br />
               <br />
               Test Result: {{ (currentEvent$ | async).labresult }} <br />
               <br />
-              Date Results released: <br />
+              Date Results released:
+              {{ (currentEvent$ | async)?.resultsRealesedDate }}<br />
             </td>
           </tr>
         </tbody>
