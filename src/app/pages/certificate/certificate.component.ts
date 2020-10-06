@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
 export class CertificateComponent implements OnInit {
 
   currentEvent$: Observable<any>;
+  generateLink = window.document.URL;
+  todayDate = new Date();
 
   constructor(private store: Store<AppState>) {
     this.currentEvent$ = this.store.select(fromSelectors.getSelectedEventFromRouteParams);
