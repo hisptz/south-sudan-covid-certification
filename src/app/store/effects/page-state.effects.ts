@@ -7,28 +7,58 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AnalyticsService } from 'src/app/shared/services';
 
-
-
 @Injectable()
 export class PageStateEffects {
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private analyticsService: AnalyticsService
+  ) {}
 
-  constructor(private actions$: Actions, private store: Store<AppState>,
-              private analyticsService: AnalyticsService) {}
-
-  loadEvents$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(fromActions.loadEvents),
-      switchMap((action) =>
-        this.analyticsService.loadEnrollements().pipe(
-          map((response: any) =>
-          this.store.dispatch(fromActions.addEvents({payload: response }))
-          ),
-          catchError((error: Error) =>
-          of(fromActions.loadNotification({payload: {message: error.message, statusCode: 500 } }))
+  loadEvents$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(fromActions.loadEvents),
+        switchMap((action) =>
+          this.analyticsService.loadEnrollements1().pipe(
+            map((response: any) =>
+              this.store.dispatch(fromActions.addEvents({ payload: response }))
+            ),
+            catchError((error: Error) =>
+              of(
+                fromActions.loadNotification({
+                  payload: { message: error.message, statusCode: 500 },
+                })
+              )
+            )
           )
         )
-      )
-    ), {dispatch: false }
+      ),
+    { dispatch: false }
   );
-
+  loadOrgUnitWithAncestors$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(fromActions.loadOrgUnitWithAncestors),
+        switchMap((action) =>
+          this.analyticsService.loadOrgUnitDataWithAncestors(action.id).pipe(
+            map((response: any) =>
+              this.store.dispatch(
+                fromActions.loadOrgUnitWithAncestorsSuccess({
+                  payload: response,
+                })
+              )
+            ),
+            catchError((error: Error) =>
+              of(
+                fromActions.loadNotification({
+                  payload: { message: error.message, statusCode: 500 },
+                })
+              )
+            )
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 }

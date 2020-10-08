@@ -5,6 +5,7 @@ import * as fromSelectors from '../../store/selectors';
 import * as fromActions from '../../store/actions';
 import { Observable } from 'rxjs';
 import { FilterByPipe } from 'ngx-pipes';
+import { loadOrgUnitWithAncestors } from '../../store/actions';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,9 @@ export class HomeComponent implements OnInit {
 
   onCurrentPageUpdate(e) {
     this.page = e;
+  }
+  onOpeningCertificate(id) {
+    
   }
 
 

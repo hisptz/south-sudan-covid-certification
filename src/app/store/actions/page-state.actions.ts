@@ -60,4 +60,16 @@ export const updateNotificationStatus = createAction(
   '[PageState/API] Update Notification Status',
   props<{ payload: boolean }>()
 );
+export const loadOrgUnitWithAncestors = createAction(
+  '[PageState/API] Load OrgUnit With Ancestors',
+  props<{ id: string }>()
+);
+export const loadOrgUnitWithAncestorsSuccess = createAction(
+  '[PageState/API] Load OrgUnit With Ancestors Success',
+  props<{ payload: any }>()
+);
+export const loadOrgUnitWithAncestorsFailure = createAction(
+  '[PageState/API] Load OrgUnit With Ancestors Failure',
+  props<{ error: any }>()
+);
 export const clearPageStates = createAction('[PageState/API] Clear PageStates');
