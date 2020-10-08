@@ -1,15 +1,17 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import * as PageStateActions from '../actions/page-state.actions';
-import { PageState, NotificationState } from '../models';
-import * as fromHelpers from '../../shared/helpers';
+import { Action, createReducer, on } from "@ngrx/store";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as PageStateActions from "../actions/page-state.actions";
+import { PageState, NotificationState } from "../models";
+import * as fromHelpers from "../../shared/helpers";
 
-export const pageStatesFeatureKey = 'pageStates';
+export const pageStatesFeatureKey = "pageStates";
 
 export interface State extends EntityState<PageState> {
   // additional entities state properties
   notification: NotificationState;
   notificationStatus: boolean;
+  loadedOrgUnit: any;
+  loadOrgUnit: boolean;
   events: any;
   eventsLoading: boolean;
 }
@@ -20,20 +22,21 @@ export const adapter: EntityAdapter<PageState> = createEntityAdapter<
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
-  notification: { message: '', statusCode: 0 },
+  notification: { message: "", statusCode: 0 },
   notificationStatus: false,
+  loadedOrgUnit: null,
+  loadOrgUnit: false,
   events: [],
-  eventsLoading: true
+  eventsLoading: true,
 });
 
 const pageStateReducer = createReducer(
   initialState,
-  on(PageStateActions.addEvents, (state, action) =>
-    ({...state,
-      eventsLoading: false,
-      events: fromHelpers.transformAnalytics(action.payload)
-    })
-  ),
+  on(PageStateActions.addEvents, (state, action) => ({
+    ...state,
+    eventsLoading: false,
+    events: fromHelpers.transformAnalytics(action.payload),
+  })),
   on(PageStateActions.upsertPageState, (state, action) =>
     adapter.upsertOne(action.pageState, state)
   ),
@@ -52,13 +55,28 @@ const pageStateReducer = createReducer(
   on(PageStateActions.deletePageState, (state, action) =>
     adapter.removeOne(action.id, state)
   ),
-  on(PageStateActions.loadNotification,
-    (state, action) => ({...state, notification: action.payload, notificationStatus: true })
-  ),
-  on(PageStateActions.showNotification,
-    (state, action) => ({...state, notificationStatus: action.payload })
-  ),
-  on(PageStateActions.clearPageStates, (state) => adapter.removeAll(state))
+  on(PageStateActions.loadNotification, (state, action) => ({
+    ...state,
+    notification: action.payload,
+    notificationStatus: true,
+  })),
+  on(PageStateActions.showNotification, (state, action) => ({
+    ...state,
+    notificationStatus: action.payload,
+  })),
+  on(PageStateActions.clearPageStates, (state) => adapter.removeAll(state)),
+  on(PageStateActions.loadOrgUnitWithAncestors, (state, action) => ({
+    ...state,
+    loadOrgUnit: true,
+  })),
+  on(
+    PageStateActions.loadOrgUnitWithAncestorsSuccess,
+    (state, { payload }) => ({
+      ...state,
+      loadOrgUnit: false,
+      loadedOrgUnit: payload,
+    })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

@@ -5,7 +5,7 @@
         <div class="row w-100 mx-0 mb-2">
           <div class="col-sm">
             <div class="input-group">
-              <mat-form-field class="w-50">
+              <mat-form-field class="w-50" appearance="outline">
                 <input matInput type="text" placeholder="Search" (keyup)="searchingItems($event)">
               </mat-form-field>
             </div>
@@ -60,13 +60,13 @@
                   <td> {{ row.email }} </td>
                   <td> {{ row.phone }} </td>
                   <td> {{ row.nationality }} </td>
-                  <td> {{ row.enrollementdate }} </td>
+                  <td> {{ row.enrollementdate | date }} </td>
                   <td> {{ row.orgunitname }} </td>
                   <td> {{ row.labresult }} </td>
                  
                   <td>
-                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height"
-                    [routerLink]="'/certificate'" [queryParams]="{ psi: row.psi }">
+                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height" 
+                    [routerLink]="'/certificate'" [queryParams]="{ psi: row.psi, orgunit: row?.orgunitid }">
                       Certificate
                     </button>
                   </td>

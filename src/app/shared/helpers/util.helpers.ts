@@ -45,8 +45,9 @@ export function transformAnalytics(analytics) {
             specimenCollectedDate: row[itemIndex(headers, 'Spx Date Specimen Collected')],
             resultsRealesedDate: row[itemIndex(headers, 'Date result released')],
             specimenCondition: row[itemIndex(headers, 'Specimen Condition')],
-            labName: row[itemIndex(headers, 'Testing Lab Name')],
-            testMethod: row[itemIndex(headers, 'Test Method')]
+            labName: row[itemIndex(headers, 'Organisation unit name')],
+            testMethod: row[itemIndex(headers, 'Test Method')],
+            testingPlatform: row[itemIndex(headers, 'Testing Platform')],
         };
     });
     return transformedData;
