@@ -27,6 +27,7 @@ export class CertificateComponent implements OnInit {
 
   ngOnInit() {
     const orgunitid = this.route.snapshot.queryParams.orgunit;
+    console.log({orgunitid});
     this.store.dispatch(loadOrgUnitWithAncestors({ id: orgunitid }));
     this.orgUnitAncestors$ = this.store.select(
       fromSelectors.getLoadedOrgUnitAncestors
