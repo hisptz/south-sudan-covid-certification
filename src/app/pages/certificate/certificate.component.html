@@ -32,14 +32,14 @@
   <mat-progress-bar
     mode="indeterminate"
     class="ml-2 mt-4"
-    *ngIf="!(currentEvent$ | async).psi"
+    *ngIf="!(currentEvent$ | async).psi || !(orgUnitAncestors$ | async)"
   ></mat-progress-bar>
   <!-- End of Progressive Loader -->
   <!-- Certificate Section  -->
   <div
     class="row mx-0 w-100 mt-4"
     id="certificatepage"
-    *ngIf="(currentEvent$ | async).psi"
+    *ngIf="(currentEvent$ | async).psi && (orgUnitAncestors$ | async) "
   >
     <!-- certificate header -->
     <div class="row w-100 mx-0">
