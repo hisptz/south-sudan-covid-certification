@@ -16,11 +16,15 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 import { RouteSerializer } from './utils';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AllCertificatesComponent } from './pages/home/all-certificates/all-certificates.component';
+import { ApprovedCertificatesComponent } from './pages/home/approved-certificates/approved-certificates.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ...pagesComponent
+    ...pagesComponent,
+    AllCertificatesComponent,
+    ApprovedCertificatesComponent
   ],
   imports: [
     BrowserModule,

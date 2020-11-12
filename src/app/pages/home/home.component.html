@@ -1,106 +1,14 @@
-<div class="container-fluid px-0">
-  <label class="font-x-large font-weight-bold"> Certification for COVID-19 Lab Test</label>
-    <div class="row mx-0 w-100">
-        <!-- Search field with buttons -->
-        <div class="row w-100 mx-0 mb-2">
-          <div class="col-sm">
-            <div class="input-group">
-              <mat-form-field class="w-50" appearance="outline">
-                <input matInput type="text" placeholder="Search" (keyup)="searchingItems($event)">
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-sm pr-0 d-flex justify-content-end">
-            <!-- <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
-              All Registered
-            </button>
-            <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
-                Reported
-            </button> -->
-          </div>
-        </div>
-        <!-- Search field with buttons -->
-        <!-- {{eventsAnalytics$ | async | json }} -->
-
-
-        <!-- Progressive Loader -->
-        <mat-progress-bar mode="indeterminate" class="ml-2" *ngIf="(eventsLoading$ | async)"></mat-progress-bar>
-        <!-- End of Progressive Loader -->
-        <!-- Table card section  -->
-        <div class="row w-100 ml-2" *ngIf="(eventsAnalytics$ | async)">
-          <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
-            <table class="table table-hover w-100">
-              <thead>
-                <tr class="text-muted">
-                  <th>SN</th>
-                  <th> System generated case ID </th>
-                  <th> First name </th>
-                  <th> Surname </th>
-                  <th> Sex </th>
-                  <th> Age </th>
-                  <th> Email </th>
-                  <th> Phone number </th>
-                  <th> Nationality </th>
-                  <th> Enrolled date </th>
-                  <th> Organisation unit name </th>
-                  <th> Lab result </th>
-                  <th>Print</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of ((eventsAnalytics$ | async) |
-                     filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText |
-                     paginate: { itemsPerPage: itemsPerPage, currentPage: page});let i = index;trackBy: trackByFn;">
-                  <td> {{ i + 10 * (page - 1) + 1 }} </td>
-                  <td> {{ row.systemgenerateduid }} </td>
-                  <td> {{ row.firstname }} </td>
-                  <td> {{ row.surname }} </td>
-                  <td> {{ row.sex }} </td>
-                  <td> {{ row.age }} </td>
-                  <td> {{ row.email }} </td>
-                  <td> {{ row.phone }} </td>
-                  <td> {{ row.nationality }} </td>
-                  <td> {{ row.enrollementdate | date }} </td>
-                  <td> {{ row.orgunitname }} </td>
-                  <td> {{ row.labresult }} </td>
-                 
-                  <td>
-                    <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height" 
-                    [routerLink]="'/certificate'" [queryParams]="{ psi: row.psi, orgunit: row?.orgunitid }">
-                      Certificate
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-              <tbody class="w-100"
-                *ngIf="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length < 1 && (eventsAnalytics$ | async).length > 0">
-                <tr>
-                  <td colspan="10">
-                    <label class="text-muted text-center w-100 h3"> Data not found</label>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot
-                *ngIf="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length > 0">
-                <tr>
-                  <td [attr.colspan]="13">
-                    <app-pagination 
-                      [itemsPerPage]="itemsPerPage"
-                      [pageInterval]="itemsPerPage"
-                      [pageIntervalFactor]="1"
-                      [currentPage]="page"
-                      [dataArray]="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText)"
-                      [maxSize]="((eventsAnalytics$ | async) | filterBy: ['firstname','surname','sex', 'nationality', 'orgunitname'] : searchText).length"
-                      (changeCurrentPage)="onCurrentPageUpdate($event)"
-                      (updateItemsPerPage)="onUpdatePageSize($event)">
-                    </app-pagination>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </mat-card>
-        </div>
-        <!-- End of Table card section  -->
-
-  </div>
-</div>
+<mat-tab-group>
+  <mat-tab label="All Certificates">
+    <app-all-certificates
+      [eventsLoading]="eventsLoading$ | async"
+      [eventsAnalytics]="eventsAnalytics$ | async"
+    ></app-all-certificates>
+  </mat-tab>
+  <mat-tab label="Approved Certificates">
+    <app-approved-certificates
+      [eventsLoading]="eventsLoading$ | async"
+      [eventsAnalytics]="eventsAnalytics$ | async"
+    ></app-approved-certificates>
+  </mat-tab>
+</mat-tab-group>
