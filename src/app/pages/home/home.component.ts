@@ -1,22 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import {AppState} from '../../store/reducers';
-import {Store} from '@ngrx/store';
+import { AppState } from '../../store/reducers';
+import { Store } from '@ngrx/store';
 import * as fromSelectors from '../../store/selectors';
 import * as fromActions from '../../store/actions';
 import { Observable } from 'rxjs';
 import { FilterByPipe } from 'ngx-pipes';
-import { loadOrgUnitWithAncestors } from '../../store/actions';
+import {
+  ApproveCertificate,
+  loadOrgUnitWithAncestors,
+} from '../../store/actions';
+import {
+  getApprovedCertificates,
+  getApprovedCertificatesLoadedStatus,
+  getApprovedCertificatesLoadingStatus,
+} from '../../store/selectors/certificate-approval.selectors';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [FilterByPipe]
+  providers: [FilterByPipe],
 })
 export class HomeComponent implements OnInit {
-
   eventsAnalytics$: Observable<any>;
   eventsLoading$: Observable<any>;
+  approvedCertificates$: Observable<Array<string>>;
+  certificateApprovalLoadingStatus$: Observable<boolean>;
+  certificateApprovalLoadedStatus$: Observable<boolean>;
   page = 1;
   itemsPerPage = 10;
   searchText = '';
@@ -27,7 +37,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.approvedCertificates$ = this.store.select(getApprovedCertificates);
+    this.certificateApprovalLoadedStatus$ = this.store.select(
+      getApprovedCertificatesLoadedStatus
+    );
+    this.certificateApprovalLoadingStatus$ = this.store.select(
+      getApprovedCertificatesLoadingStatus
+    );
   }
 
   trackByFn(index, item) {
@@ -48,10 +64,5 @@ export class HomeComponent implements OnInit {
   onCurrentPageUpdate(e) {
     this.page = e;
   }
-  onOpeningCertificate(id) {
-    
-  }
-
-
-
+  onOpeningCertificate(id) {}
 }

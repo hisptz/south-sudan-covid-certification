@@ -38,8 +38,8 @@
       <!-- End of Progressive Loader -->
       <!-- Table card section  -->
       <div class="row w-100 ml-2" *ngIf="eventsAnalytics">
-        <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
-          <table class="table table-hover w-100">
+        <mat-card class="w-100 mb-4 p-0 overflow-hidden ">
+          <table class="table table-bordered w-100 overflow-hidden">
             <thead>
               <tr class="text-muted">
                 <th>SN</th>
@@ -60,7 +60,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let row of eventsAnalytics
+                  let row of certificates
                     | filterBy
                       : [
                           'firstname',
@@ -70,13 +70,12 @@
                           'orgunitname'
                         ]
                       : searchText
-                    | paginate
-                      : { itemsPerPage: itemsPerPage, currentPage: page };
+                    | slice: lowValue: highValue;
                   let i = index;
                   trackBy: trackByFn
                 "
               >
-                <td>{{ i + 10 * (page - 1) + 1 }}</td>
+                <td>{{ getRowNumber(row, certificates) }}</td>
                 <td>{{ row.systemgenerateduid }}</td>
                 <td>{{ row.firstname }}</td>
                 <td>{{ row.surname }}</td>
@@ -106,7 +105,7 @@
               class="w-100"
               *ngIf="
                 (
-                  eventsAnalytics
+                  certificates
                   | filterBy
                     : [
                         'firstname',
@@ -130,7 +129,7 @@
             <tfoot
               *ngIf="
                 (
-                  eventsAnalytics
+                  certificates
                   | filterBy
                     : [
                         'firstname',
@@ -145,13 +144,13 @@
             >
               <tr>
                 <td [attr.colspan]="13">
-                  <app-pagination
+                  <!-- <app-pagination
                     [itemsPerPage]="itemsPerPage"
                     [pageInterval]="itemsPerPage"
                     [pageIntervalFactor]="1"
                     [currentPage]="page"
                     [dataArray]="
-                      eventsAnalytics
+                     certificates
                         | filterBy
                           : [
                               'firstname',
@@ -164,7 +163,7 @@
                     "
                     [maxSize]="
                       (
-                        eventsAnalytics
+                        certificates
                         | filterBy
                           : [
                               'firstname',
@@ -179,7 +178,15 @@
                     (changeCurrentPage)="onCurrentPageUpdate($event)"
                     (updateItemsPerPage)="onUpdatePageSize($event)"
                   >
-                  </app-pagination>
+                  </app-pagination> -->
+                  <mat-paginator
+                  [length]="
+                    certificates.length
+                  "
+                  [pageSize]="pageSize"
+                  (page)="onPageChange($event)"
+                >
+                </mat-paginator>
                 </td>
               </tr>
             </tfoot>

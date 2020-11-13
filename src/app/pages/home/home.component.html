@@ -3,12 +3,16 @@
     <app-all-certificates
       [eventsLoading]="eventsLoading$ | async"
       [eventsAnalytics]="eventsAnalytics$ | async"
+      [approvedCertificates]="approvedCertificates$ | async"
+      [certificateApprovalLoadingStatus] ="certificateApprovalLoadingStatus$ | async"
+
     ></app-all-certificates>
   </mat-tab>
   <mat-tab label="Approved Certificates">
     <app-approved-certificates
       [eventsLoading]="eventsLoading$ | async"
       [eventsAnalytics]="eventsAnalytics$ | async"
+      [approvedCertificates]="approvedCertificates$ | async"
     ></app-approved-certificates>
   </mat-tab>
 </mat-tab-group>

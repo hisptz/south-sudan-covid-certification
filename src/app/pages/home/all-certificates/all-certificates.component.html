@@ -30,16 +30,16 @@
       <!-- {{eventsAnalytics$ | async | json }} -->
 
       <!-- Progressive Loader -->
-      <mat-progress-bar
+      <!-- <mat-progress-bar
         mode="indeterminate"
         class="ml-2"
         *ngIf="eventsLoading"
-      ></mat-progress-bar>
+      ></mat-progress-bar> -->
       <!-- End of Progressive Loader -->
       <!-- Table card section  -->
-      <div class="row w-100 ml-2" *ngIf="eventsAnalytics">
+      <div class="row w-100 ml-2" >
         <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
-          <table class="table table-hover w-100">
+          <table class="table table-bordered w-100">
             <thead>
               <tr class="text-muted">
                 <th>SN</th>
@@ -54,29 +54,34 @@
                 <th>Enrolled date</th>
                 <th>Organisation unit name</th>
                 <th>Lab result</th>
-                <th>Print</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody
+            *ngIf="eventsLoading || certificateApprovalLoadingStatus"
+                >
+                  <td colspan="100%" style="border-right: 1px solid #dee2e6">
+                    <div>Loading data</div>
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                  </td>
+                </tbody>
+            <tbody *ngIf="!eventsLoading && !certificateApprovalLoadingStatus">
               <tr
                 *ngFor="
                   let row of eventsAnalytics
-                    | filterBy
-                      : [
+                    | filterBy : [
                           'firstname',
                           'surname',
                           'sex',
                           'nationality',
                           'orgunitname'
-                        ]
-                      : searchText
-                    | paginate
-                      : { itemsPerPage: itemsPerPage, currentPage: page };
+                        ] : searchText
+                    |  slice: lowValue:highValue;
                   let i = index;
                   trackBy: trackByFn
                 "
               >
-                <td>{{ i + 10 * (page - 1) + 1 }}</td>
+                <td>{{ getRowNumber(row, eventsAnalytics) }}</td>
                 <td>{{ row.systemgenerateduid }}</td>
                 <td>{{ row.firstname }}</td>
                 <td>{{ row.surname }}</td>
@@ -91,9 +96,11 @@
 
                 <td>
                   <button
+                   *ngIf="!isApproved(row?.psi)"
                     mat-stroked-button
                     color="primary"
                     class="mt-2 ml-2 button-height"
+                    (click)="approveCerificate(row?.psi)"
                   >
                     Approve
                   </button>
@@ -143,7 +150,15 @@
             >
               <tr>
                 <td [attr.colspan]="13">
-                  <app-pagination
+                  <mat-paginator
+                  [length]="
+                    eventsAnalytics.length
+                  "
+                  [pageSize]="pageSize"
+                  (page)="onPageChange($event)"
+                >
+                </mat-paginator>
+                  <!-- <app-pagination
                     [itemsPerPage]="itemsPerPage"
                     [pageInterval]="itemsPerPage"
                     [pageIntervalFactor]="1"
@@ -177,7 +192,7 @@
                     (changeCurrentPage)="onCurrentPageUpdate($event)"
                     (updateItemsPerPage)="onUpdatePageSize($event)"
                   >
-                  </app-pagination>
+                  </app-pagination> -->
                 </td>
               </tr>
             </tfoot>
