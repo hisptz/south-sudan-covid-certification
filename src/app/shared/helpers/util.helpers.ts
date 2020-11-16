@@ -27,6 +27,7 @@ export function transformAnalytics(analytics) {
     const transformedData = (analytics.rows || []).map(row => {
         return {
             psi: row[itemIndex(headers, 'Enrollment')],
+            tei: row[itemIndex(headers, 'Tracked entity instance')],
             systemgenerateduid: row[itemIndex(headers, 'System Generated Case ID')],
             firstname: row[itemIndex(headers, 'First Name')],
             surname: row[itemIndex(headers, 'Surname')],
