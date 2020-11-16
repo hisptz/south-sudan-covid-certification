@@ -3,7 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { ApproveCertificate } from 'src/app/store/actions';
 import { AppState } from 'src/app/store/reducers';
-import { findIndex} from 'lodash';
+import { findIndex, uniq} from 'lodash';
+import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
 
 @Component({
   selector: 'app-all-certificates',
@@ -51,16 +52,16 @@ export class AllCertificatesComponent implements OnInit {
       ? true
       : false;
   }
-  approveCerificate(id: string) {
-    if (this.approvedCertificates && !this.approvedCertificates.includes(id)) {
+  approveCerificate(enrollment: string, tei: string, ou: string  ) {
+    if (this.approvedCertificates ) {
       this.snackBar.open('Approving certificate', '', {
         duration: 2000,
       });
 
-      const certificates = [...this.approvedCertificates];
-      certificates.push(id);
-      console.log({certificates});
-      this.store.dispatch(ApproveCertificate({ payload: certificates }));
+      const newApprovedCertificates: ApprovedCertificate[] = uniq( [...this.approvedCertificates]);
+      const certificateObj: ApprovedCertificate = {enrollment, tei, ou, approvedBy: ''};
+      newApprovedCertificates.push(certificateObj);
+      this.store.dispatch(ApproveCertificate({ payload: newApprovedCertificates  }));
     }
   }
   onPageChange(event) {
