@@ -7,8 +7,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { differenceBy, map, flattenDeep } from 'lodash';
-import { findIndex} from 'lodash';
-
+import { findIndex, find } from 'lodash';
+import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
 
 @Component({
   selector: 'app-approved-certificates',
@@ -19,7 +19,7 @@ export class ApprovedCertificatesComponent
   implements OnInit, AfterViewInit, OnChanges {
   @Input() eventsLoading;
   @Input() eventsAnalytics;
-  @Input() approvedCertificates: Array<string>;
+  @Input() approvedCertificates: Array<ApprovedCertificate>;
   certificates = [];
   searchText = '';
   page = 1;
@@ -31,11 +31,14 @@ export class ApprovedCertificatesComponent
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.eventsAnalytics && this.eventsAnalytics.length) {
-      console.log(this.eventsAnalytics);
       this.certificates = flattenDeep(
         map(this.eventsAnalytics || [], (analytic) => {
           if (analytic && analytic.psi && this.approvedCertificates) {
-            if (this.approvedCertificates.includes(analytic.psi)) {
+            const approvedCertificate = find(
+              this.approvedCertificates || [],
+              (certificate) => certificate.enrollment === analytic.psi
+            );
+            if (approvedCertificate) {
               return analytic;
             }
           }
