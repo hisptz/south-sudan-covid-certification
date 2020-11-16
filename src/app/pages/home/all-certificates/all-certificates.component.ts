@@ -3,8 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { ApproveCertificate } from 'src/app/store/actions';
 import { AppState } from 'src/app/store/reducers';
-import { findIndex, uniq} from 'lodash';
+import { findIndex, uniq, find } from 'lodash';
 import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
+import { CurrentUser } from 'src/app/store/models';
+import { getApprovedCertificatePayload } from 'src/app/shared/helpers/get-approved-certificates-payload';
 
 @Component({
   selector: 'app-all-certificates',
@@ -14,9 +16,10 @@ import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.m
 export class AllCertificatesComponent implements OnInit {
   @Input() eventsLoading;
   @Input() eventsAnalytics;
-  @Input() approvedCertificates: Array<string>;
+  @Input() approvedCertificates: Array<ApprovedCertificate>;
   @Output() approveEvent = new EventEmitter<string>();
   @Input() certificateApprovalLoadingStatus: boolean;
+  @Input() currentUser: CurrentUser;
   searchText = '';
   page = 1;
   itemsPerPage = 10;
@@ -32,7 +35,6 @@ export class AllCertificatesComponent implements OnInit {
       e.stopPropagation();
     }
     this.searchText = e ? e.target.value.trim() : this.searchText;
-    console.log({search: this.searchText});
   }
   trackByFn(index, item) {
     return item.id;
@@ -45,24 +47,25 @@ export class AllCertificatesComponent implements OnInit {
     this.page = e;
   }
 
-  isApproved(id: string) {
-    return this.approvedCertificates &&
-      this.approvedCertificates.length &&
-      this.approvedCertificates.includes(id)
-      ? true
-      : false;
+  isApproved(enrollment: string) {
+    const approvedCertificate = find(
+      this.approvedCertificates || [],
+      (certificate) => certificate.enrollment === enrollment
+    );
+    return approvedCertificate ? true : false;
   }
-  approveCerificate(enrollment: string, tei: string, ou: string  ) {
-    if (this.approvedCertificates ) {
-      this.snackBar.open('Approving certificate', '', {
-        duration: 2000,
-      });
-
-      const newApprovedCertificates: ApprovedCertificate[] = uniq( [...this.approvedCertificates]);
-      const certificateObj: ApprovedCertificate = {enrollment, tei, ou, approvedBy: ''};
-      newApprovedCertificates.push(certificateObj);
-      this.store.dispatch(ApproveCertificate({ payload: newApprovedCertificates  }));
-    }
+  approveCerificate(enrollment: string, tei: string, ou: string) {
+    this.snackBar.open('Approving certificate', '', {
+      duration: 2000,
+    });
+    const approvedCertificates: Array<ApprovedCertificate> = getApprovedCertificatePayload(
+      this.approvedCertificates,
+      enrollment,
+      tei,
+      ou,
+      this.currentUser
+    );
+    this.store.dispatch(ApproveCertificate({ payload: approvedCertificates }));
   }
   onPageChange(event) {
     if (event.pageIndex === this.pageIndex + 1) {

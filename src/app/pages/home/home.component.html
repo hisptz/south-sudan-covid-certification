@@ -5,7 +5,7 @@
       [eventsAnalytics]="eventsAnalytics$ | async"
       [approvedCertificates]="approvedCertificates$ | async"
       [certificateApprovalLoadingStatus] ="certificateApprovalLoadingStatus$ | async"
-
+       [currentUser] = "currentUser$ | async"
     ></app-all-certificates>
   </mat-tab>
   <mat-tab label="Approved Certificates">
