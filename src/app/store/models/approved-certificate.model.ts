@@ -3,4 +3,5 @@ export interface ApprovedCertificate {
     tei: string;
     ou: string;
     approvedBy: string;
+    isPending: boolean;
 }

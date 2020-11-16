@@ -6,7 +6,7 @@ export const LoadCertificateApprovals = createAction(
 );
 export const LoadCertificateApprovalsSuccess = createAction(
   '[CertificateApproval] Load CertificateApprovals Success',
-  props<{ payload: any }>()
+  props<{ payload: Array<ApprovedCertificate> }>()
 );
 export const LoadCertificateApprovalsFailure = createAction(
   '[CertificateApproval] Load CertificateApprovals Success',
