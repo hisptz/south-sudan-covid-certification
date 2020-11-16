@@ -1,4 +1,5 @@
 import { Action, createAction, props } from '@ngrx/store';
+import { ApprovedCertificate } from '../models/approved-certificate.model';
 
 export const LoadCertificateApprovals = createAction(
   '[CertificateApproval] Load CertificateApprovals'
@@ -28,7 +29,7 @@ export const SetUpApprovalCertificateDataFailure = createAction(
 
 export const ApproveCertificate = createAction(
   '[CertificateApproval] Approve Certificate',
-  props<{ payload: any }>()
+  props<{ payload: Array<ApprovedCertificate> }>()
 );
 
 export const ApproveCertificateSuccess = createAction(
