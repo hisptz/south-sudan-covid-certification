@@ -18,6 +18,7 @@
     </div>
     <div class="col-sm py-2 d-flex justify-content-end">
       <button
+      [disabled] = "!(currentEvent$ | async)[columnDefn.ENROLLMENT_ID]"
         mat-stroked-button
         class="color-black btn-border-color-grey"
         matTooltip="Print Certificate"
@@ -32,14 +33,14 @@
   <mat-progress-bar
     mode="indeterminate"
     class="ml-2 mt-4"
-    *ngIf="!(currentEvent$ | async).psi || !(orgUnitAncestors$ | async)"
+    *ngIf="!(currentEvent$ | async)[columnDefn.ENROLLMENT_ID]"
   ></mat-progress-bar>
   <!-- End of Progressive Loader -->
   <!-- Certificate Section  -->
   <div
     class="row mx-0 w-100 mt-4"
     id="certificatepage"
-    *ngIf="(currentEvent$ | async).psi && (orgUnitAncestors$ | async) "
+    *ngIf="(currentEvent$ | async)[columnDefn.ENROLLMENT_ID] "
   >
     <!-- certificate header -->
     <div class="row w-100 mx-0">
@@ -74,18 +75,18 @@
         <tbody>
           <tr>
             <td>
-              Full name: {{ (currentEvent$ | async)?.firstname }}
-              {{ (currentEvent$ | async).surname }} <br />
-              Sex: {{ (currentEvent$ | async).sex }}<br />
-              Age: {{ (currentEvent$ | async).age }} <br />
-              Nationality: {{ (currentEvent$ | async).nationality }} <br />
+              Full name: {{ (currentEvent$ | async)[columnDefn.FIRST_NAME] }}
+              {{ (currentEvent$ | async)[columnDefn.LAST_NAME] }} <br />
+              Sex: {{ (currentEvent$ | async)[columnDefn.SEX] }}<br />
+              Age: {{ (currentEvent$ | async)[columnDefn.AGE] }} <br />
+              Nationality: {{ (currentEvent$ | async)[columnDefn.NATIONALITY] }} <br />
               Passport # / NIN: <br />
             </td>
             <td>
-              Laboratory Name: {{ (currentEvent$ | async)?.labName }}<br />
-              State: {{(orgUnitAncestors$ |async)?.state}}<br />
-              County: {{(orgUnitAncestors$ |async)?.county}}<br />
-              Testing Platform: {{ (currentEvent$ | async)?.testingPlatform }}<br />
+              Laboratory Name: {{ (currentEvent$ | async)[columnDefn.ORGUNIT_NAME] }}<br />
+              State: {{(currentEvent$ |async)?.state}}<br />
+              County: {{(currentEvent$ |async)?.county}}<br />
+              Testing Platform: {{ (currentEvent$ | async)[columnDefn.TEST_PLATFORM] }}<br />
             </td>
           </tr>
         </tbody>
@@ -98,15 +99,15 @@
         <tbody>
           <tr>
             <td>
-              Lab Specimen ID: <br />
-              Specimen Type: {{ (currentEvent$ | async)?.specimenType }}<br />
-              Specimen Quality: {{ (currentEvent$ | async)?.specimenCondition }}<br />
+              Lab Specimen ID: {{ (currentEvent$ | async)[columnDefn.SPECIMEN_ID]}}<br />
+              Specimen Type: {{ (currentEvent$ | async)[columnDefn.SPECIMEN_TYPE] }}<br />
+              Specimen Quality: {{ (currentEvent$ | async)[columnDefn.SPECIMEN_CONDITION] }}<br />
             </td>
             <td>
               Date Specimen Collected:
-              {{ (currentEvent$ | async)?.specimenCollectedDate | date }}<br />
+              {{ (currentEvent$ | async)[columnDefn.DATE_SPECIMEN_COLLECTED] | date }}<br />
               Date Specimen Received:
-              {{ (currentEvent$ | async)?.specimenReceivedDate | date }}<br />
+              {{ (currentEvent$ | async)[columnDefn.DATE_SPECIMEN_RECEIVED] | date }}<br />
               Date Specimen Tested:
               {{ (currentEvent$ | async)?.investigationStartDate | date }}
               <br />
@@ -122,12 +123,12 @@
         <tbody>
           <tr>
             <td>
-              Test Method:  {{ (currentEvent$ | async)?.testMethod }}<br />
+              Test Method:  {{ (currentEvent$ | async)[columnDefn.TEST_METHOD] }}<br />
               <br />
-              Test Result: {{ (currentEvent$ | async).labresult }} <br />
+              Test Result: {{ (currentEvent$ | async)[columnDefn.LAB_TEST_RESULT] }} <br />
               <br />
               Date Results released:
-              {{ (currentEvent$ | async)?.resultsRealesedDate | date}}<br />
+              {{ (currentEvent$ | async)[columnDefn.DATE_RESULT_RELEASED] | date}}<br />
             </td>
           </tr>
         </tbody>

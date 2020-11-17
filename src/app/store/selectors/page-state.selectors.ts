@@ -1,4 +1,5 @@
 import { createSelector } from "@ngrx/store";
+import { columnsDefinitions } from 'src/app/shared/models/certificate.model';
 import * as fromMainReducer from "../reducers";
 import * as fromPageStateReducer from "../reducers/page-state.reducer";
 import { getRouterParams } from "./router.selectors";
@@ -67,7 +68,7 @@ export const getSelectedEventFromRouteParams = createSelector(
   getRouterParams,
   (events, routerParams) => {
     const psiuid = routerParams.psi ? routerParams.psi : "";
-    const currentEvent = (events || []).filter((event) => event.psi === psiuid);
+    const currentEvent = (events || []).filter((event) => event[columnsDefinitions.ENROLLMENT_ID] === psiuid);
     return currentEvent[0] ? currentEvent[0] : {};
   }
 );
