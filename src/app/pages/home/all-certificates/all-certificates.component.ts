@@ -30,6 +30,8 @@ export class AllCertificatesComponent implements OnInit {
   lowValue = 0;
   highValue = 10;
   certificateColumns;
+  rowOpened = null;
+  columnDefns = columnsDefinitions;
   constructor(private store: Store<AppState>, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
@@ -112,5 +114,13 @@ export class AllCertificatesComponent implements OnInit {
   }
   getRowNumber(row, analytics: Array<any>) {
     return findIndex(analytics || [], row) + 1;
+  }
+  closeViewDataSection(data){
+    if (data && data.closeView) {
+      this.rowOpened = null;
+    }
+  }
+  showViewdataSection(data) {
+     this.rowOpened = data;
   }
 }
