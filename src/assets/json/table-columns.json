@@ -1,4 +1,5 @@
-[
+{
+  "columns": [
     {
         "name": "sB1IHYu2xQT",
         "column": "First Name",
@@ -31,5 +32,27 @@
         "hidden": false,
         "meta": true,
         "optionSet": "WDUwjiW2rGH"
-      }, 
+      },
+      {
+        "name": "state",
+        "column": "State",
+        "valueType": "TEXT"
+      },
+      {
+        "name": "county",
+        "column": "County",
+        "valueType": "TEXT"
+      },
+      {
+        "name": "payam",
+        "column": "Payam",
+        "valueType": "TEXT"
+      }
+],
+"filters": [
+  "sB1IHYu2xQT",
+  "ENRjVGxVL6l",
+  "oindugucx72"
 ]
+
+}
