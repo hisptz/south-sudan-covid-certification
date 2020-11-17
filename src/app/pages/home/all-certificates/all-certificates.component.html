@@ -70,11 +70,11 @@
 
                 <td>
                   <button
-                   *ngIf="!isApproved(row?.psi)"
+                   *ngIf="!isApproved(row)"
                     mat-stroked-button
                     color="primary"
                     class="mt-2 ml-2 button-height"
-                    (click)="approveCerificate(row?.psi, row?.tei, row?.orgunitid)"
+                    (click)="approveCerificate(row)"
                   >
                     Approve
                   </button>

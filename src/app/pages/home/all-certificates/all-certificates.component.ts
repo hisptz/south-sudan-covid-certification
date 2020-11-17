@@ -8,6 +8,7 @@ import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.m
 import { CurrentUser } from 'src/app/store/models';
 import { getApprovedCertificatePayload } from 'src/app/shared/helpers/get-approved-certificates-payload.helper';
 import { JSON_FILES } from 'src/app/shared/helpers/json-files.helper';
+import { columnsDefinitions } from 'src/app/shared/models/certificate.model';
 
 @Component({
   selector: 'app-all-certificates',
@@ -56,17 +57,18 @@ export class AllCertificatesComponent implements OnInit {
     this.page = e;
   }
 
-  isApproved(enrollment: string) {
+  isApproved(row: any) {
     const approvedCertificate = find(
       this.approvedCertificates || [],
-      (certificate) => certificate.enrollment === enrollment
+      (certificate) => certificate.enrollment === row[columnsDefinitions.ENROLLMENT_ID]
     );
     return approvedCertificate ? true : false;
   }
-  approveCerificate(enrollment: string, tei: string, ou: string) {
+  approveCerificate(row) {
     this.snackBar.open('Approving certificate', '', {
       duration: 2000,
     });
+    const { enrollment, tei, ou } = this.getApprovalStoringDataFromRow(row);
     const approvedCertificates: Array<ApprovedCertificate> = getApprovedCertificatePayload(
       this.approvedCertificates,
       enrollment,
@@ -74,7 +76,29 @@ export class AllCertificatesComponent implements OnInit {
       ou,
       this.currentUser
     );
+    console.log({ enrollment, tei, ou });
     this.store.dispatch(ApproveCertificate({ payload: approvedCertificates }));
+  }
+  getApprovalStoringDataFromRow(row) {
+    let enrollment = '';
+    let tei = '';
+    let ou = '';
+    const approvalFilters =
+      this.certificateColumns && this.certificateColumns.approvalStoringData
+        ? this.certificateColumns.approvalStoringData
+        : null;
+    for (const filter of approvalFilters) {
+      if (row[filter]) {
+        if (filter === 'pi') {
+          enrollment = row[filter];
+        } else if (filter === 'tei') {
+          tei = row[filter];
+        } else if (filter === 'ou') {
+          ou = row[filter];
+        }
+      }
+    }
+    return { enrollment, tei, ou };
   }
   onPageChange(event) {
     if (event.pageIndex === this.pageIndex + 1) {
