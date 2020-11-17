@@ -43,17 +43,7 @@
             <thead>
               <tr class="text-muted">
                 <th>SN</th>
-                <th>System generated case ID</th>
-                <th>First name</th>
-                <th>Surname</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th>Phone number</th>
-                <th>Nationality</th>
-                <th>Enrolled date</th>
-                <th>Organisation unit name</th>
-                <th>Lab result</th>
+                <th *ngFor="let column of certificateColumns?.columns">{{ column?.column }}</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -69,30 +59,14 @@
               <tr
                 *ngFor="
                   let row of eventsAnalytics
-                    | filterBy : [
-                          'firstname',
-                          'surname',
-                          'sex',
-                          'nationality',
-                          'orgunitname'
-                        ] : searchText
+                    | filterBy : certificateColumns?.filters : searchText
                     |  slice: lowValue:highValue;
                   let i = index;
                   trackBy: trackByFn
                 "
               >
                 <td>{{ getRowNumber(row, eventsAnalytics) }}</td>
-                <td>{{ row.systemgenerateduid }}</td>
-                <td>{{ row.firstname }}</td>
-                <td>{{ row.surname }}</td>
-                <td>{{ row.sex }}</td>
-                <td>{{ row.age }}</td>
-                <td>{{ row.email }}</td>
-                <td>{{ row.phone }}</td>
-                <td>{{ row.nationality }}</td>
-                <td>{{ row.enrollementdate | date }}</td>
-                <td>{{ row.orgunitname }}</td>
-                <td>{{ row.labresult }}</td>
+                <td *ngFor="let column of certificateColumns?.columns">{{ row[column?.name] }}</td>
 
                 <td>
                   <button
@@ -113,21 +87,14 @@
                 (
                   eventsAnalytics
                   | filterBy
-                    : [
-                        'firstname',
-                        'surname',
-                        'sex',
-                        'nationality',
-                        'orgunitname'
-                      ]
-                    : searchText
+                    : certificateColumns?.filters : searchText
                 ).length < 1 && eventsAnalytics.length > 0
               "
             >
               <tr>
                 <td colspan="10">
                   <label class="text-muted text-center w-100 h3">
-                    Data not found</label
+                    Data not found  </label
                   >
                 </td>
               </tr>
@@ -137,14 +104,7 @@
                 (
                   eventsAnalytics
                   | filterBy
-                    : [
-                        'firstname',
-                        'surname',
-                        'sex',
-                        'nationality',
-                        'orgunitname'
-                      ]
-                    : searchText
+                    : certificateColumns?.filters: searchText
                 ).length > 0
               "
             >
@@ -157,42 +117,8 @@
                   [pageSize]="pageSize"
                   (page)="onPageChange($event)"
                 >
+               
                 </mat-paginator>
-                  <!-- <app-pagination
-                    [itemsPerPage]="itemsPerPage"
-                    [pageInterval]="itemsPerPage"
-                    [pageIntervalFactor]="1"
-                    [currentPage]="page"
-                    [dataArray]="
-                      eventsAnalytics
-                        | filterBy
-                          : [
-                              'firstname',
-                              'surname',
-                              'sex',
-                              'nationality',
-                              'orgunitname'
-                            ]
-                          : searchText
-                    "
-                    [maxSize]="
-                      (
-                        eventsAnalytics
-                        | filterBy
-                          : [
-                              'firstname',
-                              'surname',
-                              'sex',
-                              'nationality',
-                              'orgunitname'
-                            ]
-                          : searchText
-                      ).length
-                    "
-                    (changeCurrentPage)="onCurrentPageUpdate($event)"
-                    (updateItemsPerPage)="onUpdatePageSize($event)"
-                  >
-                  </app-pagination> -->
                 </td>
               </tr>
             </tfoot>

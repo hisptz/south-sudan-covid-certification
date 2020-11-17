@@ -6,7 +6,8 @@ import { AppState } from 'src/app/store/reducers';
 import { findIndex, uniq, find } from 'lodash';
 import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
 import { CurrentUser } from 'src/app/store/models';
-import { getApprovedCertificatePayload } from 'src/app/shared/helpers/get-approved-certificates-payload';
+import { getApprovedCertificatePayload } from 'src/app/shared/helpers/get-approved-certificates-payload.helper';
+import { JSON_FILES } from 'src/app/shared/helpers/json-files.helper';
 
 @Component({
   selector: 'app-all-certificates',
@@ -27,9 +28,17 @@ export class AllCertificatesComponent implements OnInit {
   pageSize = 10;
   lowValue = 0;
   highValue = 10;
+  certificateColumns;
   constructor(private store: Store<AppState>, private snackBar: MatSnackBar) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.certificateColumns =
+      JSON_FILES &&
+      JSON_FILES.certificateListColumns &&
+      JSON_FILES.certificateListColumns
+        ? JSON_FILES.certificateListColumns
+        : [];
+  }
   searchingItems(e) {
     if (e) {
       e.stopPropagation();

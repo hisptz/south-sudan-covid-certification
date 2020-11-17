@@ -1,6 +1,14 @@
 {
   "columns": [
     {
+      "name": "HAZ7VQ730yn",
+      "column": "System Generated Case ID",
+      "valueType": "TEXT",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
         "name": "sB1IHYu2xQT",
         "column": "First Name",
         "valueType": "TEXT",
@@ -52,7 +60,10 @@
 "filters": [
   "sB1IHYu2xQT",
   "ENRjVGxVL6l",
-  "oindugucx72"
+  "oindugucx72",
+  "state",
+  "county",
+  "payam"
 ]
 
 }
