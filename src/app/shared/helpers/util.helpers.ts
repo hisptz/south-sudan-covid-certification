@@ -1,5 +1,5 @@
 
-
+import {flattenDeep} from 'lodash';
 
 
 export function removeAnalyticsheaders(analytics, headersToRemove) {
@@ -27,6 +27,7 @@ export function transformAnalytics(analytics) {
     const transformedData = (analytics.rows || []).map(row => {
         return {
             psi: row[itemIndex(headers, 'Enrollment')],
+            tei: row[itemIndex(headers, 'Tracked entity instance')],
             systemgenerateduid: row[itemIndex(headers, 'System Generated Case ID')],
             firstname: row[itemIndex(headers, 'First Name')],
             surname: row[itemIndex(headers, 'Surname')],
@@ -59,3 +60,27 @@ export function itemIndex(headers, headername) {
     );
     return itemindex;
 }
+export function getItemIndex(headers, headername) {
+    const itemindex = (headers || []).findIndex(
+      (head) => head.name === headername,
+    );
+    return itemindex;
+  }
+
+export function getFormattedEnrollments(analytics: any) {
+    const headers = analytics && analytics.headers ? analytics.headers : [];
+    const transformedData = (analytics.rows || []).map((row) => {
+      let obj = {};
+      if (headers && headers.length) {
+        for (const header of headers) {
+          let value = '';
+          value = row[getItemIndex(headers, header.name)];
+          obj =
+            header && header.name ? { ...obj, [header.name]: value } : { ...obj };
+        }
+      }
+      obj = { ...obj };
+      return obj;
+    });
+    return flattenDeep(transformedData);
+  }

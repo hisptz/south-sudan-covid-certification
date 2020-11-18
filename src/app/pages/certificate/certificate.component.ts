@@ -6,6 +6,7 @@ import * as fromActions from '../../store/actions';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { loadOrgUnitWithAncestors } from '../../store/actions';
+import { columnsDefinitions } from 'src/app/shared/models/certificate.model';
 
 @Component({
   selector: 'app-certificate',
@@ -18,6 +19,7 @@ export class CertificateComponent implements OnInit {
   todayDate = new Date();
   orgUnitAncestors$: Observable<any>;
   orgUnitLoadingStatus$: Observable<any>;
+  columnDefn = columnsDefinitions;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {
     this.currentEvent$ = this.store.select(
@@ -25,17 +27,7 @@ export class CertificateComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    const orgunitid = this.route.snapshot.queryParams.orgunit;
-    console.log({orgunitid});
-    this.store.dispatch(loadOrgUnitWithAncestors({ id: orgunitid }));
-    this.orgUnitAncestors$ = this.store.select(
-      fromSelectors.getLoadedOrgUnitAncestors
-    );
-    this.orgUnitLoadingStatus$ = this.store.select(
-      fromSelectors.getLoadingOrgUnitDataStatus
-    );
-  }
+  ngOnInit() {}
 
   printCertificate() {
     window.print();

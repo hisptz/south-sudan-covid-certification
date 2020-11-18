@@ -1,0 +1,45 @@
+<div class="w-100">
+  <div class="w-100">
+    <button
+      style="
+        float: right;
+        border: 1px solid lightgray;
+        border-radius: 0;
+        margin-bottom: 1em;
+      "
+      (click)="closeSection()"
+      mat-icon-button
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <table class="table table-bordered">
+    <tbody>
+      <tr *ngFor="let column of columns">
+        <th>{{ column.column }}</th>
+        <td>
+          {{ row[column.name] }}
+        </td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>
+          <p *ngIf="!isApproved">Not Approved</p>
+          <p *ngIf="isApproved" style="color: green">Approved</p>
+        </td>
+      </tr>
+      <tr *ngIf="!isApproved">
+        <th>Action</th>
+        <td>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="approveCertificate(row)"
+          >
+            Approve
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

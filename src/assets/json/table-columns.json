@@ -1,0 +1,69 @@
+{
+  "columns": [
+    {
+      "name": "HAZ7VQ730yn",
+      "column": "System Generated Case ID",
+      "valueType": "TEXT",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "sB1IHYu2xQT",
+      "column": "First Name",
+      "valueType": "TEXT",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "ENRjVGxVL6l",
+      "column": "Surname",
+      "valueType": "TEXT",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "Rv8WM2mTuS5",
+      "column": "Age",
+      "valueType": "INTEGER_ZERO_OR_POSITIVE",
+      "type": "java.lang.Integer",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "oindugucx72",
+      "column": "Sex",
+      "valueType": "TEXT",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true,
+      "optionSet": "WDUwjiW2rGH"
+    },
+    {
+      "name": "state",
+      "column": "State",
+      "valueType": "TEXT"
+    },
+    {
+      "name": "county",
+      "column": "County",
+      "valueType": "TEXT"
+    },
+    {
+      "name": "payam",
+      "column": "Payam",
+      "valueType": "TEXT"
+    }
+  ],
+  "filters": [
+    "sB1IHYu2xQT",
+    "ENRjVGxVL6l",
+    "oindugucx72",
+    "state",
+    "county",
+    "payam"
+  ],
+  "approvalStoringData": ["pi", "tei", "ou"]
+}

@@ -1,0 +1,156 @@
+<div class="container-fluid px-0">
+    <label class="font-x-large font-weight-bold">
+      Certification for COVID-19 Lab Test</label
+    >
+    <div class="row mx-0 w-100">
+      <!-- Search field with buttons -->
+      <div class="row w-100 mx-0 mb-2">
+        <div class="col-sm">
+          <div class="input-group">
+            <mat-form-field class="w-50" appearance="outline">
+              <input
+                matInput
+                type="text"
+                placeholder="Search"
+                (keyup)="searchingItems($event)"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-sm pr-0 d-flex justify-content-end">
+          <!-- <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+            All Registered
+          </button>
+          <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+              Reported
+          </button> -->
+        </div>
+      </div>
+      <!-- Search field with buttons -->
+      <!-- {{eventsAnalytics$ | async | json }} -->
+
+      <!-- Progressive Loader -->
+      <mat-progress-bar
+        mode="indeterminate"
+        class="ml-2"
+        *ngIf="eventsLoading"
+      ></mat-progress-bar>
+      <!-- End of Progressive Loader -->
+      <!-- Table card section  -->
+      <div class="row w-100 ml-2" *ngIf="eventsAnalytics">
+        <mat-card class="w-100 mb-4 p-0 overflow-hidden ">
+          <table class="table table-bordered w-100 overflow-hidden">
+            <thead>
+              <tr class="text-muted">
+                <th>SN</th>
+                <th *ngFor="let column of certificateColumns?.columns">{{ column?.column }}</th>
+                <th>Print</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let row of certificates
+                    | filterBy: certificateColumns?.filters: searchText
+                    | slice: lowValue: highValue;
+                  let i = index;
+                  trackBy: trackByFn
+                "
+              >
+                <td>{{ getRowNumber(row, certificates) }}</td>
+                <td *ngFor="let column of certificateColumns?.columns">{{ row[column?.name] }}</td>
+
+                <td>
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    class="mt-2 ml-2 button-height"
+                    [routerLink]="'/certificate'"
+                    [queryParams]="{ psi: row[columnsDefn.ENROLLMENT_ID], orgunit: row[columnsDefn.ENROLLMENT_ID] }"
+                  >
+                    Certificate
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody
+              class="w-100"
+              *ngIf="
+                (
+                  certificates
+                  | filterBy
+                    : certificateColumns?.filters: searchText
+                ).length < 1 && eventsAnalytics.length > 0
+              "
+            >
+              <tr>
+                <td colspan="10">
+                  <label class="text-muted text-center w-100 h3">
+                    Data not found {{ certificates | json}}</label
+                  >
+                </td>
+              </tr>
+            </tbody>
+            <tfoot
+              *ngIf="
+                (
+                  certificates
+                  | filterBy
+                    : certificateColumns?.filters: searchText
+                ).length > 0
+              "
+            >
+              <tr>
+                <td [attr.colspan]="13">
+                  <!-- <app-pagination
+                    [itemsPerPage]="itemsPerPage"
+                    [pageInterval]="itemsPerPage"
+                    [pageIntervalFactor]="1"
+                    [currentPage]="page"
+                    [dataArray]="
+                     certificates
+                        | filterBy
+                          : [
+                              'firstname',
+                              'surname',
+                              'sex',
+                              'nationality',
+                              'orgunitname'
+                            ]
+                          : searchText
+                    "
+                    [maxSize]="
+                      (
+                        certificates
+                        | filterBy
+                          : [
+                              'firstname',
+                              'surname',
+                              'sex',
+                              'nationality',
+                              'orgunitname'
+                            ]
+                          : searchText
+                      ).length
+                    "
+                    (changeCurrentPage)="onCurrentPageUpdate($event)"
+                    (updateItemsPerPage)="onUpdatePageSize($event)"
+                  >
+                  </app-pagination> -->
+                  <mat-paginator
+                  [length]="
+                    certificates.length
+                  "
+                  [pageSize]="pageSize"
+                  (page)="onPageChange($event)"
+                >
+                </mat-paginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </mat-card>
+      </div>
+      <!-- End of Table card section  -->
+    </div>
+  </div>

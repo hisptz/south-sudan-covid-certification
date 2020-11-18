@@ -1,0 +1,15 @@
+:host ::ng-deep .mat-tab-body-content  {
+    overflow: hidden !important;
+}
+.table-section {
+    width: 65% !important;
+}
+.info-section {
+    width: 30%;
+}
+.selected-row {
+    background-color: #E0E0E0;
+}
+.unselected-row {
+    background-color: white;
+}
