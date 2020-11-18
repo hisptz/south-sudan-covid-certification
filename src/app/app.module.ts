@@ -18,13 +18,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AllCertificatesComponent } from './pages/home/all-certificates/all-certificates.component';
 import { ApprovedCertificatesComponent } from './pages/home/approved-certificates/approved-certificates.component';
+import { ViewCertificateComponent } from './pages/home/view-certificate/view-certificate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ...pagesComponent,
     AllCertificatesComponent,
-    ApprovedCertificatesComponent
+    ApprovedCertificatesComponent,
+    ViewCertificateComponent
   ],
   imports: [
     BrowserModule,

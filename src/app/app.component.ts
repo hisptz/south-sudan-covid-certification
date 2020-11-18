@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppState} from './store/reducers';
 import {Store} from '@ngrx/store';
-import * as fromSelectors from './store/selectors';
 import * as fromActions from './store/actions';
 
 @Component({

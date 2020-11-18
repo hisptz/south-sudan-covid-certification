@@ -14,6 +14,9 @@ import {
   getApprovedCertificatesLoadedStatus,
   getApprovedCertificatesLoadingStatus,
 } from '../../store/selectors/certificate-approval.selectors';
+import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
+import { CurrentUser } from 'src/app/store/models';
+import { getCurrentUser } from '../../store/selectors';
 
 @Component({
   selector: 'app-home',
@@ -24,9 +27,10 @@ import {
 export class HomeComponent implements OnInit {
   eventsAnalytics$: Observable<any>;
   eventsLoading$: Observable<any>;
-  approvedCertificates$: Observable<Array<string>>;
+  approvedCertificates$: Observable<Array<ApprovedCertificate>>;
   certificateApprovalLoadingStatus$: Observable<boolean>;
   certificateApprovalLoadedStatus$: Observable<boolean>;
+  currentUser$: Observable<CurrentUser>;
   page = 1;
   itemsPerPage = 10;
   searchText = '';
@@ -38,6 +42,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.approvedCertificates$ = this.store.select(getApprovedCertificates);
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.certificateApprovalLoadedStatus$ = this.store.select(
       getApprovedCertificatesLoadedStatus
     );

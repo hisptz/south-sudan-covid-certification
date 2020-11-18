@@ -1,21 +1,22 @@
-import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { LoadCertificateApprovals, LoadCertificateApprovalsFailure, LoadCertificateApprovalsSuccess } from '../actions';
+import { ApprovedCertificate } from '../models/approved-certificate.model';
 
 
 export const certificateApprovalFeatureKey = 'certificateApproval';
 
-export interface CerificateApprovalState {
+export interface State  extends EntityState<any> {
   loading: boolean;
   loaded: boolean;
-  approvedCertificates: Array<string>;
+  approvedCertificates: Array<ApprovedCertificate>;
 }
 export const adapter: EntityAdapter<any> = createEntityAdapter<
  any
 >();
 
 
-export const initialState: CerificateApprovalState = adapter.getInitialState({
+export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
   approvedCertificates: null
@@ -36,6 +37,6 @@ export const certificateApprovalReducer = createReducer(
   }))
 );
 
-export function reducer(state: CerificateApprovalState | undefined, action: Action) {
+export function reducer(state: State | undefined, action: Action) {
   return certificateApprovalReducer(state, action);
 }

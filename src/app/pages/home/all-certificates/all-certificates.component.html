@@ -1,204 +1,151 @@
 <div class="container-fluid px-0">
-    <label class="font-x-large font-weight-bold">
-      Certification for COVID-19 Lab Test</label
-    >
-    <div class="row mx-0 w-100">
-      <!-- Search field with buttons -->
-      <div class="row w-100 mx-0 mb-2">
-        <div class="col-sm">
-          <div class="input-group">
-            <mat-form-field class="w-50" appearance="outline">
-              <input
-                matInput
-                type="text"
-                placeholder="Search"
-                (keyup)="searchingItems($event)"
-              />
-            </mat-form-field>
-          </div>
+  <label class="font-x-large font-weight-bold">
+    Certification for COVID-19 Lab Test</label
+  >
+  <div class="row mx-0 w-100">
+    <!-- Search field with buttons -->
+    <div class="row w-100 mx-0 mb-2">
+      <div class="col-sm">
+        <div class="input-group">
+          <mat-form-field class="w-50" appearance="outline">
+            <input
+              matInput
+              type="text"
+              placeholder="Search"
+              (keyup)="searchingItems($event)"
+            />
+          </mat-form-field>
         </div>
-        <div class="col-sm pr-0 d-flex justify-content-end">
-          <!-- <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
+      </div>
+      <div class="col-sm pr-0 d-flex justify-content-end">
+        <!-- <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
             All Registered
           </button>
           <button mat-stroked-button color="primary" class="mt-2 ml-2 button-height">
               Reported
           </button> -->
-        </div>
       </div>
-      <!-- Search field with buttons -->
-      <!-- {{eventsAnalytics$ | async | json }} -->
+    </div>
+    <!-- Search field with buttons -->
+    <!-- {{eventsAnalytics$ | async | json }} -->
 
-      <!-- Progressive Loader -->
-      <!-- <mat-progress-bar
+    <!-- Progressive Loader -->
+    <!-- <mat-progress-bar
         mode="indeterminate"
         class="ml-2"
         *ngIf="eventsLoading"
       ></mat-progress-bar> -->
-      <!-- End of Progressive Loader -->
-      <!-- Table card section  -->
-      <div class="row w-100 ml-2" >
-        <mat-card class="w-100 mb-4 p-0 overflow-x-auto">
-          <table class="table table-bordered w-100">
-            <thead>
-              <tr class="text-muted">
-                <th>SN</th>
-                <th>System generated case ID</th>
-                <th>First name</th>
-                <th>Surname</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th>Phone number</th>
-                <th>Nationality</th>
-                <th>Enrolled date</th>
-                <th>Organisation unit name</th>
-                <th>Lab result</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody
-            *ngIf="eventsLoading || certificateApprovalLoadingStatus"
-                >
-                  <td colspan="100%" style="border-right: 1px solid #dee2e6">
-                    <div>Loading data</div>
-                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                  </td>
-                </tbody>
-            <tbody *ngIf="!eventsLoading && !certificateApprovalLoadingStatus">
-              <tr
-                *ngFor="
-                  let row of eventsAnalytics
-                    | filterBy : [
-                          'firstname',
-                          'surname',
-                          'sex',
-                          'nationality',
-                          'orgunitname'
-                        ] : searchText
-                    |  slice: lowValue:highValue;
-                  let i = index;
-                  trackBy: trackByFn
-                "
-              >
-                <td>{{ getRowNumber(row, eventsAnalytics) }}</td>
-                <td>{{ row.systemgenerateduid }}</td>
-                <td>{{ row.firstname }}</td>
-                <td>{{ row.surname }}</td>
-                <td>{{ row.sex }}</td>
-                <td>{{ row.age }}</td>
-                <td>{{ row.email }}</td>
-                <td>{{ row.phone }}</td>
-                <td>{{ row.nationality }}</td>
-                <td>{{ row.enrollementdate | date }}</td>
-                <td>{{ row.orgunitname }}</td>
-                <td>{{ row.labresult }}</td>
-
-                <td>
-                  <button
-                   *ngIf="!isApproved(row?.psi)"
-                    mat-stroked-button
-                    color="primary"
-                    class="mt-2 ml-2 button-height"
-                    (click)="approveCerificate(row?.psi)"
-                  >
-                    Approve
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-            <tbody
-              class="w-100"
-              *ngIf="
-                (
-                  eventsAnalytics
-                  | filterBy
-                    : [
-                        'firstname',
-                        'surname',
-                        'sex',
-                        'nationality',
-                        'orgunitname'
-                      ]
-                    : searchText
-                ).length < 1 && eventsAnalytics.length > 0
+    <!-- End of Progressive Loader -->
+    <!-- Table card section  -->
+    <div class="row w-100 ml-2">
+      <mat-card
+        [ngClass]="{ 'table-section': rowOpened, 'w-100': !rowOpened }"
+        class="w-100 mb-4 p-0 overflow-x-auto"
+      >
+        <table class="table table-bordered w-100">
+          <thead>
+            <tr class="text-muted">
+              <th>SN</th>
+              <th *ngFor="let column of certificateColumns?.columns">
+                {{ column?.column }}
+              </th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="eventsLoading || certificateApprovalLoadingStatus">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
+              <div>Loading data</div>
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </td>
+          </tbody>
+          <tbody *ngIf="!eventsLoading && !certificateApprovalLoadingStatus">
+            <tr
+              *ngFor="
+                let row of eventsAnalytics
+                  | filterBy: certificateColumns?.filters:searchText
+                  | slice: lowValue:highValue;
+                let i = index;
+                trackBy: trackByFn
               "
+            [style.background-color]="rowColor(row)"
+               
             >
-              <tr>
-                <td colspan="10">
-                  <label class="text-muted text-center w-100 h3">
-                    Data not found</label
-                  >
-                </td>
-              </tr>
-            </tbody>
-            <tfoot
-              *ngIf="
-                (
-                  eventsAnalytics
-                  | filterBy
-                    : [
-                        'firstname',
-                        'surname',
-                        'sex',
-                        'nationality',
-                        'orgunitname'
-                      ]
-                    : searchText
-                ).length > 0
-              "
-            >
-              <tr>
-                <td [attr.colspan]="13">
-                  <mat-paginator
-                  [length]="
-                    eventsAnalytics.length
+              <td>{{ getRowNumber(row, eventsAnalytics) }}</td>
+              <td *ngFor="let column of certificateColumns?.columns">
+                <button
+                  mat-button
+                  *ngIf="
+                    column?.name === columnDefns.FIRST_NAME ||
+                    column?.name === columnDefns.LAST_NAME
                   "
+                  (click)="showViewdataSection(row)"
+                >
+                  {{ row[column?.name] }}
+                </button>
+                <p
+                  *ngIf="
+                    column?.name !== columnDefns.FIRST_NAME &&
+                    column?.name !== columnDefns.LAST_NAME
+                  "
+                >
+                  {{ row[column?.name] }}
+                </p>
+              </td>
+
+              <td>
+                <p *ngIf="isApproved(row)" style="color: green">Approved</p>
+                <p *ngIf="!isApproved(row)">Not Approved</p>
+              </td>
+            </tr>
+          </tbody>
+          <tbody
+            class="w-100"
+            *ngIf="
+              (
+                eventsAnalytics
+                | filterBy: certificateColumns?.filters:searchText
+              ).length < 1 && eventsAnalytics.length > 0
+            "
+          >
+            <tr>
+              <td colspan="10">
+                <label class="text-muted text-center w-100 h3">
+                  Data not found
+                </label>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot
+            *ngIf="
+              (
+                eventsAnalytics
+                | filterBy: certificateColumns?.filters:searchText
+              ).length > 0
+            "
+          >
+            <tr>
+              <td [attr.colspan]="13">
+                <mat-paginator
+                  [length]="eventsAnalytics.length"
                   [pageSize]="pageSize"
                   (page)="onPageChange($event)"
                 >
                 </mat-paginator>
-                  <!-- <app-pagination
-                    [itemsPerPage]="itemsPerPage"
-                    [pageInterval]="itemsPerPage"
-                    [pageIntervalFactor]="1"
-                    [currentPage]="page"
-                    [dataArray]="
-                      eventsAnalytics
-                        | filterBy
-                          : [
-                              'firstname',
-                              'surname',
-                              'sex',
-                              'nationality',
-                              'orgunitname'
-                            ]
-                          : searchText
-                    "
-                    [maxSize]="
-                      (
-                        eventsAnalytics
-                        | filterBy
-                          : [
-                              'firstname',
-                              'surname',
-                              'sex',
-                              'nationality',
-                              'orgunitname'
-                            ]
-                          : searchText
-                      ).length
-                    "
-                    (changeCurrentPage)="onCurrentPageUpdate($event)"
-                    (updateItemsPerPage)="onUpdatePageSize($event)"
-                  >
-                  </app-pagination> -->
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </mat-card>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </mat-card>
+      <div class="info-section mr-2 ml-4" *ngIf="rowOpened">
+        <app-view-certificate
+          [row]="rowOpened"
+          [columns]="viewTableColumns"
+          (closeEvent)="closeViewDataSection($event)"
+          (approveEvent)="approveCerificate($event)"
+          [isApproved]="isApproved(rowOpened)"
+        ></app-view-certificate>
       </div>
-      <!-- End of Table card section  -->
     </div>
+    <!-- End of Table card section  -->
   </div>
+</div>

@@ -7,8 +7,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { differenceBy, map, flattenDeep } from 'lodash';
-import { findIndex} from 'lodash';
-
+import { findIndex, find } from 'lodash';
+import { JSON_FILES } from 'src/app/shared/helpers/json-files.helper';
+import { columnsDefinitions } from 'src/app/shared/models/certificate.model';
+import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
 
 @Component({
   selector: 'app-approved-certificates',
@@ -19,7 +21,7 @@ export class ApprovedCertificatesComponent
   implements OnInit, AfterViewInit, OnChanges {
   @Input() eventsLoading;
   @Input() eventsAnalytics;
-  @Input() approvedCertificates: Array<string>;
+  @Input() approvedCertificates: Array<ApprovedCertificate>;
   certificates = [];
   searchText = '';
   page = 1;
@@ -28,14 +30,19 @@ export class ApprovedCertificatesComponent
   pageSize = 10;
   lowValue = 0;
   highValue = 10;
+  certificateColumns;
+  columnsDefn = columnsDefinitions;
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.eventsAnalytics && this.eventsAnalytics.length) {
-      console.log(this.eventsAnalytics);
       this.certificates = flattenDeep(
         map(this.eventsAnalytics || [], (analytic) => {
-          if (analytic && analytic.psi && this.approvedCertificates) {
-            if (this.approvedCertificates.includes(analytic.psi)) {
+          if (analytic && analytic[columnsDefinitions.ENROLLMENT_ID] && this.approvedCertificates) {
+            const approvedCertificate = find(
+              this.approvedCertificates || [],
+              (certificate) => certificate.enrollment === analytic[columnsDefinitions.ENROLLMENT_ID]
+            );
+            if (approvedCertificate) {
               return analytic;
             }
           }
@@ -45,7 +52,14 @@ export class ApprovedCertificatesComponent
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.certificateColumns =
+      JSON_FILES &&
+      JSON_FILES.certificateListColumns &&
+      JSON_FILES.certificateListColumns
+        ? JSON_FILES.certificateListColumns
+        : [];
+  }
   ngAfterViewInit() {}
   searchingItems(e) {
     if (e) {
