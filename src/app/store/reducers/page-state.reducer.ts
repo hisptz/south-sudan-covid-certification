@@ -32,11 +32,14 @@ export const initialState: State = adapter.getInitialState({
 
 const pageStateReducer = createReducer(
   initialState,
-  on(PageStateActions.addEvents, (state, action) => ({
-    ...state,
-    eventsLoading: false,
-    events: fromHelpers.transformAnalytics(action.payload),
-  })),
+  on(PageStateActions.addEvents, (state, action) => {
+    console.log({ action });
+    return {
+      ...state,
+      eventsLoading: false,
+      events: action.payload,
+    };
+  }),
   on(PageStateActions.upsertPageState, (state, action) =>
     adapter.upsertOne(action.pageState, state)
   ),

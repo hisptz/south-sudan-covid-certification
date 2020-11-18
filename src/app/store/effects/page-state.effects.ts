@@ -20,7 +20,7 @@ export class PageStateEffects {
       this.actions$.pipe(
         ofType(fromActions.loadEvents),
         switchMap((action) =>
-          this.analyticsService.loadEnrollements1().pipe(
+          this.analyticsService.getFormattedEnrollments().pipe(
             map((response: any) =>
               this.store.dispatch(fromActions.addEvents({ payload: response }))
             ),
