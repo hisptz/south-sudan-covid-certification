@@ -42,15 +42,6 @@
       "optionSet": "WDUwjiW2rGH"
     },
     {
-      "name": "qlYg7fundnJ",
-      "column": "Nationality",
-      "valueType": "TEXT",
-      "type": "java.lang.String",
-      "hidden": false,
-      "meta": true,
-      "optionSet": "Ezq6sQd3nnk"
-    },
-    {
       "name": "state",
       "column": "State",
       "valueType": "TEXT"

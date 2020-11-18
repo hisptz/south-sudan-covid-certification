@@ -7,13 +7,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ViewCertificateComponent implements OnInit {
   @Input() row;
+  @Input() columns;
+  @Input() isApproved;
   @Output() closeEvent = new EventEmitter<any>();
+  @Output() approveEvent = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
   }
   closeSection() {
     this.closeEvent.emit({ closeView: true });
+  }
+  approveCertificate(row) {
+    this.approveEvent.emit(row);
   }
 
 }

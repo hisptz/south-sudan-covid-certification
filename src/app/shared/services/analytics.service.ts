@@ -11,19 +11,11 @@ export class AnalyticsService {
   apiUrl = apiLink;
 
   constructor(private httpClient: HttpClient) {}
-
+ 
   loadEnrollements(): Observable<any> {
     const url =
       this.apiUrl +
-      'analytics/events/query/uYjxkTbwRNf.json?dimension=pe:THIS_YEAR&' +
-      'dimension=ou:he6RdNPCKhY&dimension=CTdzCeTbYay.sB1IHYu2xQT&dimension=CTdzCeTbYay.ENRjVGxVL6l&' +
-      'dimension=CTdzCeTbYay.yCWkkKtr6vd&' +
-      'dimension=CTdzCeTbYay.eydwReGQiUk&' +
-      'dimension=CTdzCeTbYay.oindugucx72&' +
-      'dimension=CTdzCeTbYay.Rv8WM2mTuS5&dimension=CTdzCeTbYay.KXNWBLA2SRJ&' +
-      'dimension=CTdzCeTbYay.fctSQp5nAYl&dimension=CTdzCeTbYay.HAZ7VQ730yn&' +
-      'dimension=CTdzCeTbYay.qlYg7fundnJ:IN:Non-SSD;SSD&dimension=CTdzCeTbYay.ovY6E8BSdto:IN:Invalid;Negative;Positive&' +
-      'stage=CTdzCeTbYay&displayProperty=NAME&outputType=EVENT&desc=eventdate&paging=false';
+      'analytics/enrollments/query/uYjxkTbwRNf.json?dimension=pe:THIS_YEAR&dimension=ou:he6RdNPCKhY&dimension=iR8O4hSLHnu.sB1IHYu2xQT&dimension=iR8O4hSLHnu.ENRjVGxVL6l&dimension=iR8O4hSLHnu.Rv8WM2mTuS5&dimension=iR8O4hSLHnu.oindugucx72&dimension=iR8O4hSLHnu.HAZ7VQ730yn&dimension=iR8O4hSLHnu.kL7PTi4lRSl&dimension=iR8O4hSLHnu.D0RBm3alWd9&dimension=iR8O4hSLHnu.Q98LhagGLFj&dimension=iR8O4hSLHnu.RfWBPHo9MnC&dimension=QaAb8G10EKp.bujqZ6Dqn4m&dimension=QaAb8G10EKp.f48odhAyNtd&dimension=QaAb8G10EKp.P61FWjSAjjA&dimension=iR8O4hSLHnu.lHekjJANaNi&dimension=QaAb8G10EKp.LbIwAbaSV6r&dimension=CTdzCeTbYay.w9R4l7O9Sau&dimension=CTdzCeTbYay.b4PEeF4OOwc&dimension=CTdzCeTbYay.ovY6E8BSdto&dimension=CTdzCeTbYay.ZLEOP9JHZ5c&stage=CTdzCeTbYay&displayProperty=NAME&outputType=ENROLLMENT&desc=enrollmentdate&paging=false';
     return this.httpClient.get(url);
   }
   loadEnrollements1(): Observable<any> {
@@ -67,7 +59,7 @@ export class AnalyticsService {
     try {
       const newEnrollments = [];
       const enrollmentAnalytics = await fromHelpers.getRequestPromise(
-        this.loadEnrollements1()
+        this.loadEnrollements()
       );
       const formattedEnrollments = enrollmentAnalytics
         ? fromHelpers.getFormattedEnrollments(enrollmentAnalytics)

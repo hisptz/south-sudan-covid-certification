@@ -109,7 +109,7 @@
               Date Specimen Received:
               {{ (currentEvent$ | async)[columnDefn.DATE_SPECIMEN_RECEIVED] | date }}<br />
               Date Specimen Tested:
-              {{ (currentEvent$ | async)?.investigationStartDate | date }}
+              {{ (currentEvent$ | async)[columnDefn.DATE_SPECIMEN_ENTERED] | date }}
               <br />
             </td>
           </tr>

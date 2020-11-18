@@ -30,16 +30,21 @@ export class AllCertificatesComponent implements OnInit {
   lowValue = 0;
   highValue = 10;
   certificateColumns;
+  viewTableColumns;
   rowOpened = null;
   columnDefns = columnsDefinitions;
   constructor(private store: Store<AppState>, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.certificateColumns =
-      JSON_FILES &&
-      JSON_FILES.certificateListColumns &&
-      JSON_FILES.certificateListColumns
+      JSON_FILES && JSON_FILES.certificateListColumns
         ? JSON_FILES.certificateListColumns
+        : [];
+    this.viewTableColumns =
+      JSON_FILES &&
+      JSON_FILES.viewTableColumns &&
+      JSON_FILES.viewTableColumns.columns
+        ? JSON_FILES.viewTableColumns.columns
         : [];
   }
   searchingItems(e) {
@@ -62,7 +67,8 @@ export class AllCertificatesComponent implements OnInit {
   isApproved(row: any) {
     const approvedCertificate = find(
       this.approvedCertificates || [],
-      (certificate) => certificate.enrollment === row[columnsDefinitions.ENROLLMENT_ID]
+      (certificate) =>
+        certificate.enrollment === row[columnsDefinitions.ENROLLMENT_ID]
     );
     return approvedCertificate ? true : false;
   }
@@ -78,8 +84,8 @@ export class AllCertificatesComponent implements OnInit {
       ou,
       this.currentUser
     );
-    console.log({ enrollment, tei, ou });
     this.store.dispatch(ApproveCertificate({ payload: approvedCertificates }));
+    this.rowOpened = null;
   }
   getApprovalStoringDataFromRow(row) {
     let enrollment = '';
@@ -115,12 +121,23 @@ export class AllCertificatesComponent implements OnInit {
   getRowNumber(row, analytics: Array<any>) {
     return findIndex(analytics || [], row) + 1;
   }
-  closeViewDataSection(data){
+  closeViewDataSection(data) {
     if (data && data.closeView) {
       this.rowOpened = null;
     }
   }
   showViewdataSection(data) {
-     this.rowOpened = data;
+    this.rowOpened = data;
+  }
+  rowColor(row): string {
+    if (row && this.rowOpened) {
+      if (
+        row[this.columnDefns.ENROLLMENT_ID] ===
+        this.rowOpened[this.columnDefns.ENROLLMENT_ID]
+      ) {
+        return '#F0FFF0';
+      }
+    }
+    return '#FFFFFF';
   }
 }

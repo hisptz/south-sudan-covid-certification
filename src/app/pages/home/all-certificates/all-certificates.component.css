@@ -7,3 +7,9 @@
 .info-section {
     width: 30%;
 }
+.selected-row {
+    background-color: #E0E0E0;
+}
+.unselected-row {
+    background-color: white;
+}
