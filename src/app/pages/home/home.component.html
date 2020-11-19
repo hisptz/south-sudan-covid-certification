@@ -1,18 +1,71 @@
-<mat-tab-group>
-  <mat-tab label="All Certificates">
-    <app-all-certificates
-      [eventsLoading]="eventsLoading$ | async"
-      [eventsAnalytics]="eventsAnalytics$ | async"
-      [approvedCertificates]="approvedCertificates$ | async"
-      [certificateApprovalLoadingStatus] ="certificateApprovalLoadingStatus$ | async"
-       [currentUser] = "currentUser$ | async"
-    ></app-all-certificates>
-  </mat-tab>
-  <mat-tab label="Approved Certificates">
-    <app-approved-certificates
-      [eventsLoading]="eventsLoading$ | async"
-      [eventsAnalytics]="eventsAnalytics$ | async"
-      [approvedCertificates]="approvedCertificates$ | async"
-    ></app-approved-certificates>
-  </mat-tab>
-</mat-tab-group>
+<div *ngIf="currentUser$ | async as currentUser">
+  <div
+    class="container"
+    *ngIf="
+      !canApprove(
+        currentUser?.userCredentials?.userRoles,
+        definedUserRoles?.approve?.id
+      ) &&
+      !canPrint(
+        currentUser?.userCredentials?.userRoles,
+        definedUserRoles?.print?.id
+      )
+    "
+  >
+    <div style="text-align: center;">
+      <h3>
+        You have no authority to view contents in this application. Please
+        contact Project Administrator for more information...
+      </h3>
+      <a mat-stroked-button color="primary" href="{{ homeLink }}">Go home</a>
+    </div>
+  </div>
+
+  <mat-tab-group
+    *ngIf="
+      canApprove(
+        currentUser?.userCredentials?.userRoles,
+        definedUserRoles?.approve?.id
+      ) ||
+      canPrint(
+        currentUser?.userCredentials?.userRoles,
+        definedUserRoles?.print?.id
+      )
+    "
+  >
+    <mat-tab
+      label="All Certificates"
+      *ngIf="
+        canApprove(
+          currentUser?.userCredentials?.userRoles,
+          definedUserRoles?.approve?.id
+        )
+      "
+    >
+      <app-all-certificates
+        [eventsLoading]="eventsLoading$ | async"
+        [eventsAnalytics]="eventsAnalytics$ | async"
+        [approvedCertificates]="approvedCertificates$ | async"
+        [certificateApprovalLoadingStatus]="
+          certificateApprovalLoadingStatus$ | async
+        "
+        [currentUser]="currentUser$ | async"
+      ></app-all-certificates>
+    </mat-tab>
+    <mat-tab
+      label="Approved Certificates"
+      *ngIf="
+        canPrint(
+          currentUser?.userCredentials?.userRoles,
+          definedUserRoles?.print?.id
+        )
+      "
+    >
+      <app-approved-certificates
+        [eventsLoading]="eventsLoading$ | async"
+        [eventsAnalytics]="eventsAnalytics$ | async"
+        [approvedCertificates]="approvedCertificates$ | async"
+      ></app-approved-certificates>
+    </mat-tab>
+  </mat-tab-group>
+</div>
