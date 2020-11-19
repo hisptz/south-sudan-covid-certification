@@ -5,13 +5,14 @@ import { from, Observable, throwError } from 'rxjs';
 import { apiLink } from '../../../assets/configurations/apiLink';
 import * as fromHelpers from '../../shared/helpers';
 import { map, flattenDeep, uniq, find } from 'lodash';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AnalyticsService {
   apiUrl = apiLink;
 
   constructor(private httpClient: HttpClient) {}
- 
+
   loadEnrollements(): Observable<any> {
     const url =
       this.apiUrl +
@@ -81,12 +82,30 @@ export class AnalyticsService {
         newEnrollments.push({ ...formattedEnrollment, ...orgUnitData });
       }
 
-      return  newEnrollments;
+      return newEnrollments;
     } catch (e) {
       return throwError(e);
     }
   }
   getFormattedEnrollments() {
     return from(this.getFormattedEnrollmentsPromise());
+  }
+  getEventsWithApprovalName(ou: string, tei: string) {
+    const fields = `ou=${ou}&program=uYjxkTbwRNf&tei=${tei}&programStage=CTdzCeTbYay`;
+    const url = this.apiUrl + `events.json?paging=false&${fields}`;
+    return this.httpClient.get(url).pipe(catchError((error) => error));
+  }
+  async getEventPayload(ou: string, tei: string) {
+    try {
+      const eventsResponse: any = await fromHelpers.getRequestPromise(
+        this.getEventsWithApprovalName(ou, tei)
+      );
+      const events =
+        eventsResponse && eventsResponse.events ? eventsResponse.events : [];
+      const latestEvent = fromHelpers.getLatestEvent(events);
+      return latestEvent;
+    } catch (e) {
+      return throwError(e);
+    }
   }
 }
