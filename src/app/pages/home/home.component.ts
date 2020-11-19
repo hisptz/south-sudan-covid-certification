@@ -17,6 +17,8 @@ import {
 import { ApprovedCertificate } from 'src/app/store/models/approved-certificate.model';
 import { CurrentUser } from 'src/app/store/models';
 import { getCurrentUser } from '../../store/selectors';
+import { JSON_FILES } from 'src/app/shared/helpers/json-files.helper';
+import { homeLink } from 'src/assets/configurations/apiLink';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +36,8 @@ export class HomeComponent implements OnInit {
   page = 1;
   itemsPerPage = 10;
   searchText = '';
+  definedUserRoles = null;
+  homeLink = homeLink;
 
   constructor(private store: Store<AppState>) {
     this.eventsAnalytics$ = store.select(fromSelectors.getEvents);
@@ -41,6 +45,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.definedUserRoles =
+      JSON_FILES && JSON_FILES.definedUserRoles
+        ? JSON_FILES.definedUserRoles
+        : null;
     this.approvedCertificates$ = this.store.select(getApprovedCertificates);
     this.currentUser$ = this.store.select(getCurrentUser);
     this.certificateApprovalLoadedStatus$ = this.store.select(
@@ -70,4 +78,32 @@ export class HomeComponent implements OnInit {
     this.page = e;
   }
   onOpeningCertificate(id) {}
+  canApprove(userRoles: Array<any>, approveRoleId): boolean {
+    const roles = [];
+    if (userRoles && approveRoleId) {
+      if (userRoles) {
+        for (const role of userRoles) {
+          if (role && role.id && role.id === approveRoleId) {
+            roles.push(role.id);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  canPrint(userRoles: Array<any>, printRoleId): boolean {
+    const roles = [];
+    if (userRoles && printRoleId) {
+      if (userRoles) {
+        for (const role of userRoles) {
+          if (role && role.id && role.id === printRoleId) {
+            roles.push(role.id);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
