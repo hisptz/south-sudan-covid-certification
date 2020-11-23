@@ -18,8 +18,10 @@ export function getApprovedCertificatePayload(
       enrollment,
       tei,
       ou,
-      approvedBy:
-        currentUser && currentUser.id ? currentUser.id : '',
+      approvedBy:{ 
+         id: currentUser && currentUser.id ? currentUser.id : '',
+         name: currentUser && currentUser.name ? currentUser.name : '',
+      },
       isPending: true
     };
     newApprovedCertificates.push(certificateObj);

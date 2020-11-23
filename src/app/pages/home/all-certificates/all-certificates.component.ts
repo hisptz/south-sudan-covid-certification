@@ -68,7 +68,7 @@ export class AllCertificatesComponent implements OnInit {
     const approvedCertificate = find(
       this.approvedCertificates || [],
       (certificate) =>
-        certificate.enrollment === row[columnsDefinitions.ENROLLMENT_ID]
+        certificate.enrollment === row[columnsDefinitions.ENROLLMENT_ID],
     );
     return approvedCertificate ? true : false;
   }
@@ -82,9 +82,29 @@ export class AllCertificatesComponent implements OnInit {
       enrollment,
       tei,
       ou,
-      this.currentUser
+      this.currentUser,
     );
-    this.store.dispatch(ApproveCertificate({ payload: approvedCertificates }));
+    this.store.dispatch(
+      ApproveCertificate({
+        certificates: approvedCertificates,
+        newCertificate: {
+          enrollment,
+          tei,
+          ou,
+          approvedBy: {
+            id:
+              this.currentUser && this.currentUser.id
+                ? this.currentUser.id
+                : '',
+            name:
+              this.currentUser && this.currentUser.name
+                ? this.currentUser.name
+                : '',
+          },
+          isPending: true,
+        },
+      }),
+    );
     this.rowOpened = null;
   }
   getApprovalStoringDataFromRow(row) {

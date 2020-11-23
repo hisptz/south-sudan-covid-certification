@@ -17,5 +17,6 @@ export enum columnsDefinitions {
     LAB_TEST_RESULT = 'ovY6E8BSdto',
     TEST_METHOD = 'b4PEeF4OOwc',
     DATE_RESULT_RELEASED = 'ZLEOP9JHZ5c',
-    DATE_SPECIMEN_ENTERED = 'lHekjJANaNi'
+    DATE_SPECIMEN_ENTERED = 'lHekjJANaNi',
+    TEST_RESULT_APPROVAL_NAME = 'mJFhS108OdO'
 }
