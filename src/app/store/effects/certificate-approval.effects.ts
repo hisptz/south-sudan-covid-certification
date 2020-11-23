@@ -14,7 +14,7 @@ export class CertificateApprovalEffects {
     private actions$: Actions,
     private store: Store<AppState>,
     private approvalSercive: CerificateApprovalService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
   loadCertificateApprovals$ = createEffect(
     () =>
@@ -30,32 +30,31 @@ export class CertificateApprovalEffects {
               return this.store.dispatch(
                 fromActions.LoadCertificateApprovalsSuccess({
                   payload: approvedCertificates,
-                })
+                }),
               );
             }),
             catchError((error) => {
-              console.log({ error });
               if (error && error.status && error.status === 404) {
                 return of(
                   this.store.dispatch(
                     fromActions.SetUpApprovalCertificateData({
                       payload: { approvedCertificates: [] },
-                    })
-                  )
+                    }),
+                  ),
                 );
               }
               return of(
                 this.store.dispatch(
                   fromActions.updateNotification({
                     payload: { message: error.message, statusCode: 500 },
-                  })
-                )
+                  }),
+                ),
               );
-            })
-          )
-        )
+            }),
+          ),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   setUpApprovalCertificateData$ = createEffect(
@@ -69,7 +68,7 @@ export class CertificateApprovalEffects {
               map((data) => {
                 this.store.dispatch(fromActions.LoadCertificateApprovals());
                 return this.store.dispatch(
-                  fromActions.SetUpApprovalCertificateDataSuccess({ data })
+                  fromActions.SetUpApprovalCertificateDataSuccess({ data }),
                 );
               }),
               catchError((error) => {
@@ -77,14 +76,14 @@ export class CertificateApprovalEffects {
                   this.store.dispatch(
                     fromActions.updateNotification({
                       payload: { message: error.message, statusCode: 500 },
-                    })
-                  )
+                    }),
+                  ),
                 );
-              })
-            )
-        )
+              }),
+            ),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   approveCertificate$ = createEffect(
@@ -93,9 +92,7 @@ export class CertificateApprovalEffects {
         ofType(fromActions.ApproveCertificate),
         switchMap((action) =>
           this.approvalSercive
-            .updateApprovalCertificateData({
-              approvedCertificates: action.payload,
-            })
+            .approveCertificate(action.certificates, action.newCertificate)
             .pipe(
               map((data) => {
                 this.snackBar.open('Certificate approved successfully', null, {
@@ -103,7 +100,7 @@ export class CertificateApprovalEffects {
                 });
                 this.store.dispatch(fromActions.LoadCertificateApprovals());
                 return this.store.dispatch(
-                  fromActions.ApproveCertificateSuccess({ data })
+                  fromActions.ApproveCertificateSuccess({ data }),
                 );
               }),
               catchError((error) => {
@@ -111,23 +108,23 @@ export class CertificateApprovalEffects {
                   return of(
                     this.store.dispatch(
                       fromActions.SetUpApprovalCertificateData({
-                        payload: { approvedCertificates: action.payload },
-                      })
-                    )
+                        payload: { approvedCertificates: action.certificates },
+                      }),
+                    ),
                   );
                 }
                 return of(
                   this.store.dispatch(
                     fromActions.updateNotification({
                       payload: { message: error.message, statusCode: 500 },
-                    })
-                  )
+                    }),
+                  ),
                 );
-              })
-            )
-        )
+              }),
+            ),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   // approveCertificateSuccess$ = createEffect(() =>

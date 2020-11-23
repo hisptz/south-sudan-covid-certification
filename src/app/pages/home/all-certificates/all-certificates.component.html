@@ -73,14 +73,15 @@
               <td>{{ getRowNumber(row, eventsAnalytics) }}</td>
               <td *ngFor="let column of certificateColumns?.columns">
                 <button
-                  mat-button
+                  mat-stroked-button
                   *ngIf="
                     column?.name === columnDefns.FIRST_NAME ||
                     column?.name === columnDefns.LAST_NAME
                   "
                   (click)="showViewdataSection(row)"
                 >
-                  {{ row[column?.name] }}
+                 <span *ngIf="row[column?.name]"> {{ row[column?.name] }}</span> 
+                 <span *ngIf="row[column?.name] === ''"> N/A</span> 
                 </button>
                 <p
                   *ngIf="
