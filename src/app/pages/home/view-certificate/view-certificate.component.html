@@ -18,7 +18,8 @@
       <tr *ngFor="let column of columns">
         <th>{{ column.column }}</th>
         <td>
-          {{ row[column.name] }}
+         <p *ngIf="column?.valueType === 'DATE'"> {{ row[column.name] | date}} </p> 
+         <p *ngIf="column?.valueType !== 'DATE'"> {{ row[column.name] }} </p> 
         </td>
       </tr>
       <tr>

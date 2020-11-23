@@ -29,7 +29,7 @@ export const SetUpApprovalCertificateDataFailure = createAction(
 
 export const ApproveCertificate = createAction(
   '[CertificateApproval] Approve Certificate',
-  props<{ payload: Array<ApprovedCertificate> }>()
+  props<{ certificates: Array<ApprovedCertificate>, newCertificate: ApprovedCertificate }>()
 );
 
 export const ApproveCertificateSuccess = createAction(

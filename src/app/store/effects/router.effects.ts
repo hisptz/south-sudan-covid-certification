@@ -18,7 +18,6 @@ export class RouterEffects {
       this.actions$.pipe(
         ofType(go),
         tap(({ path, query: queryParams, extras }) => {
-          console.log('Imoo');
           this.router.navigate(path, { queryParams, ...extras });
         })
       ),
