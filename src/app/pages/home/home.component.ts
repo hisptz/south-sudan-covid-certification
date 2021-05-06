@@ -78,32 +78,48 @@ export class HomeComponent implements OnInit {
     this.page = e;
   }
   onOpeningCertificate(id) {}
-  canApprove(userRoles: Array<any>, approveRoleId): boolean {
-    const roles = [];
-    if (userRoles && approveRoleId) {
-      if (userRoles) {
-        for (const role of userRoles) {
-          if (role && role.id && role.id === approveRoleId) {
-            roles.push(role.id);
-            return true;
-          }
-        }
-      }
-    }
-    return false;
+ // canApprove(userRoles: Array<any>, approveRoleId): boolean {
+  //   const roles = [];
+  //   if (userRoles && approveRoleId) {
+  //     if (userRoles) {
+  //       for (const role of userRoles) {
+  //         if (role && role.id && role.id === approveRoleId) {
+  //           roles.push(role.id);
+  //           return true;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
+  canApprove(currentUser) {
+    return (
+      currentUser &&
+      currentUser.authorities &&
+      currentUser.authorities.length &&
+      currentUser.authorities.includes('APPROVE_CERTIFICATE')
+    );
   }
-  canPrint(userRoles: Array<any>, printRoleId): boolean {
-    const roles = [];
-    if (userRoles && printRoleId) {
-      if (userRoles) {
-        for (const role of userRoles) {
-          if (role && role.id && role.id === printRoleId) {
-            roles.push(role.id);
-            return true;
-          }
-        }
-      }
-    }
-    return false;
+  canPrint(currentUser): boolean {
+    return (
+      currentUser &&
+      currentUser.authorities &&
+      currentUser.authorities.length &&
+      currentUser.authorities.includes('PRINT_CERTIFICATE')
+    );
   }
+  // canPrint(userRoles: Array<any>, printRoleId): boolean {
+  //   const roles = [];
+  //   if (userRoles && printRoleId) {
+  //     if (userRoles) {
+  //       for (const role of userRoles) {
+  //         if (role && role.id && role.id === printRoleId) {
+  //           roles.push(role.id);
+  //           return true;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // }
 }

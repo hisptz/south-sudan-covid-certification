@@ -1,5 +1,5 @@
 {
-  "version": "0.0.7-alpha",
+  "version": "0.0.8-alpha",
   "name": "COVID-19 Certification",
   "description": "COVID-19 Certification",
   "launch_path": "index.html",
@@ -17,5 +17,6 @@
     "dhis": {
       "href": "../../../"
     }
-  }
+  },
+  "authorities": ["APPROVE_CERTIFICATE", "PRINT_CERTIFICATE"]
 }
