@@ -20,35 +20,23 @@
     {
       "name": "RfWBPHo9MnC",
       "column": "Date Specimen Sent to Laboratory",
-      "valueType": "DATE",
-      "type": "java.time.LocalDate",
-      "hidden": false,
-      "meta": true
+      "valueType": "DATE"
     },
     {
       "name": "D0RBm3alWd9",
       "column": "Type of Test",
       "valueType": "TEXT",
-      "type": "java.lang.String",
-      "hidden": false,
-      "meta": true,
       "optionSet": "tkIsR0Lo23H"
     },
     {
       "name": "Q98LhagGLFj",
       "column": "Date of Test",
-      "valueType": "DATE",
-      "type": "java.time.LocalDate",
-      "hidden": false,
-      "meta": true
+      "valueType": "DATE"
     },
     {
       "name": "ovY6E8BSdto",
       "column": "Lab Test Result",
       "valueType": "TEXT",
-      "type": "java.lang.String",
-      "hidden": false,
-      "meta": true,
       "optionSet": "dsgBmIZ0Yrq"
     }
   ]
