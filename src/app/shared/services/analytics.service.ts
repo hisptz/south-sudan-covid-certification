@@ -13,13 +13,7 @@ export class AnalyticsService {
 
   constructor(private httpClient: HttpClient) {}
 
-  loadEnrollements(): Observable<any> {
-    const url =
-      this.apiUrl +
-      'analytics/enrollments/query/uYjxkTbwRNf.json?dimension=pe:THIS_YEAR&dimension=ou:he6RdNPCKhY&dimension=iR8O4hSLHnu.sB1IHYu2xQT&dimension=iR8O4hSLHnu.ENRjVGxVL6l&dimension=iR8O4hSLHnu.Rv8WM2mTuS5&dimension=iR8O4hSLHnu.oindugucx72&dimension=iR8O4hSLHnu.HAZ7VQ730yn&dimension=iR8O4hSLHnu.kL7PTi4lRSl&dimension=iR8O4hSLHnu.D0RBm3alWd9&dimension=iR8O4hSLHnu.Q98LhagGLFj&dimension=iR8O4hSLHnu.RfWBPHo9MnC&dimension=QaAb8G10EKp.bujqZ6Dqn4m&dimension=QaAb8G10EKp.f48odhAyNtd&dimension=QaAb8G10EKp.P61FWjSAjjA&dimension=iR8O4hSLHnu.lHekjJANaNi&dimension=QaAb8G10EKp.LbIwAbaSV6r&dimension=CTdzCeTbYay.w9R4l7O9Sau&dimension=CTdzCeTbYay.b4PEeF4OOwc&dimension=CTdzCeTbYay.ovY6E8BSdto&dimension=CTdzCeTbYay.ZLEOP9JHZ5c&stage=CTdzCeTbYay&displayProperty=NAME&outputType=ENROLLMENT&desc=enrollmentdate&paging=false';
-    return this.httpClient.get(url);
-  }
-  loadEnrollements1(): Observable<any> {
+  loadEnrollments(): Observable<any> {
     const url =
       this.apiUrl +
       'analytics/enrollments/query/uYjxkTbwRNf.json?dimension=pe:THIS_YEAR&dimension=ou:he6RdNPCKhY&dimension=LpWNjNGvCO5.sB1IHYu2xQT&dimension=LpWNjNGvCO5.ENRjVGxVL6l&dimension=LpWNjNGvCO5.Rv8WM2mTuS5&dimension=LpWNjNGvCO5.oindugucx72&dimension=iR8O4hSLHnu.D0RBm3alWd9&dimension=iR8O4hSLHnu.kL7PTi4lRSl&dimension=iR8O4hSLHnu.Q98LhagGLFj&dimension=iR8O4hSLHnu.RfWBPHo9MnC&dimension=iR8O4hSLHnu.bujqZ6Dqn4m&dimension=CTdzCeTbYay.w9R4l7O9Sau&dimension=CTdzCeTbYay.ovY6E8BSdto:IN:Negative;Positive&dimension=CTdzCeTbYay.b4PEeF4OOwc&dimension=CTdzCeTbYay.ZLEOP9JHZ5c&dimension=QaAb8G10EKp.P61FWjSAjjA&dimension=QaAb8G10EKp.f48odhAyNtd&dimension=QaAb8G10EKp.LbIwAbaSV6r&dimension=LpWNjNGvCO5.HAZ7VQ730yn&dimension=QaAb8G10EKp.lHekjJANaNi&stage=QaAb8G10EKp&displayProperty=NAME&outputType=ENROLLMENT&desc=enrollmentdate&paging=false';
@@ -66,7 +60,7 @@ export class AnalyticsService {
     try {
       const newEnrollments = [];
       const enrollmentAnalytics = await fromHelpers.getRequestPromise(
-        this.loadEnrollements1()
+        this.loadEnrollments()
       );
       const formattedEnrollments = enrollmentAnalytics
         ? fromHelpers.getFormattedEnrollments(enrollmentAnalytics)
