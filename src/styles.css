@@ -17,7 +17,9 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-
+.mat-tab-body-content {
+  overflow: hidden !important;
+}
 
 
 .icon-font-size {

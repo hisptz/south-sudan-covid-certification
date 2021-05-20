@@ -125,7 +125,7 @@
             <td>
               Test Method:  {{ (currentEvent$ | async)[columnDefn.TEST_METHOD] }}<br />
               <br />
-              Test Result: {{ (currentEvent$ | async)[columnDefn.LAB_TEST_RESULT] }} <br />
+              Test Result: <b style="text-transform: uppercase;">{{ (currentEvent$ | async)[columnDefn.LAB_TEST_RESULT] }}</b> <br />
               <br />
               Date Results released:
               {{ (currentEvent$ | async)[columnDefn.DATE_RESULT_RELEASED] | date}}<br />

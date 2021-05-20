@@ -52,6 +52,10 @@
               <th>Status</th>
             </tr>
           </thead>
+          <tbody *ngIf="!eventsLoading && !eventsAnalytics.length">
+            <td colspan="100%" style="border-right: 1px solid #dee2e6">
+              <div><i>There is no available certificate</i></div>
+          </tbody>
           <tbody *ngIf="eventsLoading || certificateApprovalLoadingStatus">
             <td colspan="100%" style="border-right: 1px solid #dee2e6">
               <div>Loading data</div>

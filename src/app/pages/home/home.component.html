@@ -1,18 +1,9 @@
 <div *ngIf="currentUser$ | async as currentUser">
   <div
     class="container"
-    *ngIf="
-      !canApprove(
-        currentUser?.userCredentials?.userRoles,
-        definedUserRoles?.approve?.id
-      ) &&
-      !canPrint(
-        currentUser?.userCredentials?.userRoles,
-        definedUserRoles?.print?.id
-      )
-    "
+    *ngIf="!canApprove(currentUser) && !canPrint(currentUser)"
   >
-    <div style="text-align: center;">
+    <div style="text-align: center">
       <h3>
         You have no authority to view contents in this application. Please
         contact Project Administrator for more information...
@@ -21,27 +12,8 @@
     </div>
   </div>
 
-  <mat-tab-group
-    *ngIf="
-      canApprove(
-        currentUser?.userCredentials?.userRoles,
-        definedUserRoles?.approve?.id
-      ) ||
-      canPrint(
-        currentUser?.userCredentials?.userRoles,
-        definedUserRoles?.print?.id
-      )
-    "
-  >
-    <mat-tab
-      label="All Certificates"
-      *ngIf="
-        canApprove(
-          currentUser?.userCredentials?.userRoles,
-          definedUserRoles?.approve?.id
-        )
-      "
-    >
+  <mat-tab-group *ngIf="canApprove(currentUser) || canPrint(currentUser)">
+    <mat-tab label="All Certificates" *ngIf="canApprove(currentUser)">
       <app-all-certificates
         [eventsLoading]="eventsLoading$ | async"
         [eventsAnalytics]="eventsAnalytics$ | async"
@@ -52,15 +24,7 @@
         [currentUser]="currentUser$ | async"
       ></app-all-certificates>
     </mat-tab>
-    <mat-tab
-      label="Approved Certificates"
-      *ngIf="
-        canPrint(
-          currentUser?.userCredentials?.userRoles,
-          definedUserRoles?.print?.id
-        )
-      "
-    >
+    <mat-tab label="Approved Certificates" *ngIf="canPrint(currentUser)">
       <app-approved-certificates
         [eventsLoading]="eventsLoading$ | async"
         [eventsAnalytics]="eventsAnalytics$ | async"
